@@ -1,0 +1,53 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+  </mat-toolbar>
+</ion-header>
+
+
+<ion-content color="light">
+  <div class="m-2">
+    <div class="row">
+      <div class="col-sm-6 py-2 input-group" style="max-width: 600px;">
+        <input type="text" class="form-control" placeholder="搜索历史记录" [formControl]="searchContent" (keydown.enter)="search()">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="search()">
+            <span class="fa fa-search"></span>
+          </button>
+        </div>
+      </div>
+      <div class="col-sm py-2 text-right" *ngIf="!showDeleteBtn && searchHistoryData.length > 0">
+        <button mat-flat-button color="primary" (click)="showDeleteBtn = true">筛选</button>
+        <button mat-flat-button color="warn" class="mx-2" (click)="clearHistory()">清空</button>
+      </div>
+      <div class="col-sm py-2 text-right" *ngIf="showDeleteBtn">
+        <button mat-stroked-button color="primary" (click)="showDeleteBtn = false">返回</button>
+        <button mat-stroked-button color="warn" class="mx-2" (click)="delSomeHistory()">删除</button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div *ngFor="let item of searchHistoryData; let i = index">
+      <div class="my-2">
+        <div>{{item | dateLabel:i:searchHistoryData}}</div>
+        <mat-card>
+          <div class="d-flex justify-content-between">
+            <div class="font-weight-bold">{{item.keyword}}</div>
+            <div *ngIf="!showDeleteBtn">{{item.id | date: 'hh:mm'}}</div>
+            <ion-checkbox color="danger" *ngIf="showDeleteBtn" [checked]="selectItems.indexOf(item.id) !== -1" (ionChange)="doSelect(item.id)"></ion-checkbox>
+          </div>
+          <hr *ngIf="item.itemsSelect.length > 0">
+          <ion-item *ngFor="let content of item.itemsSelect" lines="none" button (click)="goToDetail(content)">
+            <ion-label>
+              <div class="small" [innerHTML]="content.title"></div>
+              <div class="small text-info">{{content.description}}</div>
+            </ion-label>
+          </ion-item>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+
+

@@ -1,0 +1,79 @@
+<ion-header>
+  <mat-toolbar style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button class="fa fa-chevron-left" routerLink="/wealth"></button>
+    <h5>范围选择</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <mat-tab-group mat-stretch-tabs>
+    <mat-tab label="单银行比较">
+      <mat-accordion>
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header>
+            <mat-panel-title>国有银行</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list *ngFor="let one of bankNamesState">
+            <mat-list-item (click)="goToPage(one.name)">
+              <img matListAvatar [src]="one.logo">
+              <h5 matLine>{{one.name}}</h5>
+            </mat-list-item>
+          </mat-action-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>股份银行</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list *ngFor="let one of bankNamesComp">
+            <mat-list-item (click)="goToPage(one.name)">
+              <img matListAvatar [src]="one.logo">
+              <h5 matLine>{{one.name}}</h5>
+            </mat-list-item>
+          </mat-action-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>城商银行</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>待添加...</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>农商银行</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>待添加...</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+    <mat-tab label="多银行比较">
+      <ion-list class="p-0">
+        <ion-item-divider color="primary">A</ion-item-divider>
+        <ion-item detail lines="none" button (click)="goToPage()">
+          <ion-label>全部银行</ion-label>
+        </ion-item>
+
+        <ion-item-divider color="primary">B</ion-item-divider>
+        <ion-item detail lines="none" button (click)="goToPage('国有银行')">
+          <ion-label>国有银行</ion-label>
+        </ion-item>
+        <ion-item detail lines="none" button (click)="goToPage('股份银行')">
+          <ion-label>股份银行</ion-label>
+        </ion-item>
+        <ion-item detail lines="none" button (click)="goToPage('城商银行')">
+          <ion-label>城商银行</ion-label>
+        </ion-item>
+        <ion-item detail lines="none" button (click)="goToPage('农商银行')">
+          <ion-label>农商银行</ion-label>
+        </ion-item>
+
+      </ion-list>
+    </mat-tab>
+  </mat-tab-group>
+
+</ion-content>
+
+

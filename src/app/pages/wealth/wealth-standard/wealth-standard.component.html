@@ -1,0 +1,77 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button routerLink="/wealth/home" class="fa fa-chevron-left"></button>
+    <span style="font-size: large">分类标准</span>
+  </mat-toolbar>
+</ion-header>
+
+
+<ion-content color="medium">
+  <mat-accordion>
+    <mat-expansion-panel *ngIf="target === 'rank'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>风险等级</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="riskSelect">
+        <mat-radio-button class="text-secondary" *ngFor="let one of riskTypes" [value]="one">{{one.name}}</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="target === 'rank'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>理财期限</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="termSelect">
+        <mat-radio-button class="text-secondary" *ngFor="let one of termTypes" [value]="one">{{one.name}}</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="target === 'rank'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>是否保本</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="promiseSelect">
+        <mat-radio-button class="text-secondary" *ngFor="let one of promiseTypes" [value]="one">{{one.name}}</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="target === 'rank'">
+      <mat-expansion-panel-header>
+        <mat-panel-title>收益类型</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="fixedSelect">
+        <mat-radio-button class="text-secondary" *ngFor="let one of fixedTypes" [value]="one">{{one.name}}</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>时间范围</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-radio-group class="example-radio-group" [(ngModel)]="timeRangeSelectTemp">
+        <mat-radio-button class="text-secondary" *ngFor="let one of timeRanges" [value]="one.value">{{one.name}}</mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="timeRangeSelectTemp === 0">
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerStart" placeholder="起始日期" [formControl]="timeRangeStart" [max]="maxDate" [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #pickerStart></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerEnd" placeholder="结束日期" [formControl]="timeRangeEnd" [max]="maxDate" [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #pickerEnd></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <br>
+  <div class="px-2">
+    <button mat-raised-button style="width: 100%" color="primary" (click)="openDialog()">搜索</button>
+  </div>
+
+
+</ion-content>

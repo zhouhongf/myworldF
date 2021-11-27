@@ -1,0 +1,80 @@
+<ion-header>
+  <mat-toolbar color="warn" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <div class="small">访问统计</div>
+    <button mat-button *ngIf="showDetail" class="ml-auto fa fa-mail-reply" (click)="showDetail = false"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content [hidden]="showDetail">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="table-responsive-sm">
+    <table class="table table-hover table-borderless small">
+      <thead class="thead-light">
+      <tr class="text-center">
+        <th scope="col">创建</th>
+        <th scope="col">城市</th>
+        <th scope="col">IP</th>
+        <th scope="col">设备</th>
+        <th scope="col">访问</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of elementData; let i = index" (click)="choose(data)">
+        <td>{{data['createTime'] | date:'yyyy-MM-dd'}}</td>
+        <td>{{data['city']}}</td>
+        <td>{{data['ipAddress']}}</td>
+        <td>{{data['deviceType']}}</td>
+        <td>{{data['visitCount']}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ion-infinite-scroll *ngIf="isMobile" threshold="80px" (ionInfinite)="doInfinite($event)" >
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <br><br><br><br><br><br>
+  <div *ngIf="!isMobile" class="m-2 d-flex btn-group mat-elevation-z2">
+    <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPagePrevious()">
+      <span class="fa fa-angle-left"></span>
+    </button>
+    <button type="button" class="btn btn-secondary" [disabled]="pageIndex" (click)="doPage()">{{pageIndex ? pageIndex : '下一页'}}</button>
+    <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPageNext()">
+      <span class="fa fa-angle-right"></span>
+    </button>
+  </div>
+
+</ion-content>
+
+<ion-content *ngIf="showDetail" color="medium">
+  <mat-card class="small m-2">
+    <p><strong>IP地址：</strong>{{selectedData['ipAddress']}}</p>
+    <p><strong>创建时间：</strong>{{selectedData['createTime'] | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p><strong>设备类型：</strong>{{selectedData['deviceType']}}</p>
+    <p><strong>userAgent：</strong>{{selectedData['userAgent']}}</p>
+    <p><strong>referer：</strong>{{selectedData['referer']}}</p>
+    <p><strong>手机号：</strong>{{selectedData['username']}}</p>
+    <p><strong>经度：</strong>{{selectedData['longitude']}}</p>
+    <p><strong>维度：</strong>{{selectedData['latitude']}}</p>
+    <p><strong>省份：</strong>{{selectedData['province']}}</p>
+    <p><strong>城市：</strong>{{selectedData['city']}}</p>
+    <p><strong>区县：</strong>{{selectedData['district']}}</p>
+    <p><strong>镇区：</strong>{{selectedData['township']}}</p>
+    <p><strong>街道：</strong>{{selectedData['street']}}</p>
+    <p><strong>门牌：</strong>{{selectedData['streetNumber']}}</p>
+    <p><strong>详细地址：</strong>{{selectedData['formattedAddress']}}</p>
+    <p><strong>访问次数：</strong>{{selectedData['visitCount']}}次</p>
+  </mat-card>
+
+  <div class="p-2 small">
+    <div>访问时间：</div>
+    <hr>
+    <p *ngFor="let theData of selectedVisitTimeData">{{theData | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+  </div>
+</ion-content>

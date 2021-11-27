@@ -1,0 +1,33 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <div class="input-group px-2">
+      <input type="text" class="form-control" [formControl]="searchContent" (keydown.enter)="doSearch()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="doSearch()">
+          <span class="fa fa-search"></span>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <mat-card class="m-2" *ngFor="let data of dataShow">
+    <mat-card-title style="color: darkblue; font-size: large; cursor: pointer;" (click)="goToDetail(data)" [innerHTML]="data?.name | highlight"></mat-card-title>
+    <mat-card-content>
+      <div class="text-secondary" [innerHTML]="data?.content | highlight"></div>
+      <div class="mt-2" style="color: darkcyan; cursor: pointer;" [innerHTML]="data?.bank_name | highlight" (click)="goToExternal(data?.bank_name)"></div>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <div class="m-2 d-flex btn-group mat-elevation-z2">
+    <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPagePrevious()">
+      <span class="fa fa-angle-left"></span>
+    </button>
+    <button type="button" class="btn btn-secondary" [disabled]="pageIndex" (click)="doPage()">{{pageIndex ? pageIndex : '下一页'}}</button>
+    <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPageNext()">
+      <span class="fa fa-angle-right"></span>
+    </button>
+  </div>
+</ion-content>

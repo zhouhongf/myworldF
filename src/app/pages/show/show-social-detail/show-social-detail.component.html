@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <mat-toolbar class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button class="ml-auto fa fa-chevron-circle-left" routerLink="/show/social"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content *ngIf="theData">
+  <br><br><br><br>
+  <div class="ion-padding">
+    <div *ngIf="theData['anonymous'] === 0" class="d-flex py-2">
+      <ion-avatar>
+        <img [src]="avatarPrefix + theData['userWid']">
+      </ion-avatar>
+      <div class="pl-4 d-flex align-self-center flex-column">
+        <div>{{theData['nickname']}}</div>
+        <div style="color: gray; font-size: small;">{{theData['company']}}</div>
+        <div style="color: gray; font-size: small;">{{theData['position'] | splitLast: '-': 10}}</div>
+      </div>
+      <ion-chip class="ml-auto" color="danger" outline (click)="setUserWatch(theData)" *ngIf="isLogin && theData['userWid'] !== theUserWid">
+        <ion-label *ngIf="isWatch === true">取消关注</ion-label>
+        <ion-label *ngIf="isWatch === false">添加关注</ion-label>
+      </ion-chip>
+    </div>
+    <div *ngIf="theData['anonymous'] === 1" class="d-flex py-2">
+      <ion-thumbnail>
+        <img [src]="anonymousPic">
+      </ion-thumbnail>
+      <div class="pl-4 d-flex align-self-center flex-column">
+        <div>匿名者</div>
+      </div>
+    </div>
+    <div class="py-2" [innerHTML]="theData['content'] | html"></div>
+
+    <div *ngIf="theData['tweetPhotos']">
+      <div *ngIf="theData['tweetPhotos'].length === 1" ngxViewer>
+        <img [src]="showPhotoPrefix + theData['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+      </div>
+
+      <div *ngIf="theData['tweetPhotos'].length === 2" class="row" ngxViewer>
+        <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + theData['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+        <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + theData['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+      </div>
+
+      <div *ngIf="theData['tweetPhotos'].length === 3" class="row" ngxViewer>
+        <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + theData['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+        <div class="col-6" style="padding: 2px;">
+          <div style="padding-bottom: 2px;"><img [src]="showPhotoPrefix + theData['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+          <div style="padding-top: 2px;"><img [src]="showPhotoPrefix + theData['tweetPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+        </div>
+      </div>
+
+      <div *ngIf="theData['tweetPhotos'].length > 3" class="row">
+        <div class="row" ngxViewer>
+          <div class="col-6" style="padding: 2px;">
+            <img [src]="showPhotoPrefix + theData['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+          </div>
+          <div class="col-6" style="padding: 2px;">
+            <img [src]="showPhotoPrefix + theData['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;">
+          </div>
+          <div class="col-6" style="padding: 2px;">
+            <img [src]="showPhotoPrefix + theData['tweetPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;">
+          </div>
+          <div class="col-6" style="padding: 2px;">
+            <img [src]="showPhotoPrefix + theData['tweetPhotos'][3]" class="img-fluid" style="width: 100%; height: 100%;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-toolbar style="background: rgba(255,255,255,0);">
+      <button mat-button color="warn" *ngIf="theData['userWid'] === theUserWid" (click)="delTweet()">删除</button>
+      <button mat-button color="secondary" class="ml-auto">
+        <ion-icon name="eye-outline"></ion-icon>
+        <span>{{theData['viewCount'] ? theData['viewCount'] : '浏览'}}</span>
+      </button>
+      <button mat-button color="secondary" (click)="makeComment(theData['id'], theData['userWid'], theData['nickname'])">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <span>{{theData['commentCount'] ? theData['commentCount'] : '评论'}}</span>
+      </button>
+    </mat-toolbar>
+  </div>
+
+  <div class="bg-light ion-padding" *ngIf="dataList && dataList.length > 0">
+    <div class="font-weight-bold pb-4">评论：</div>
+    <div *ngFor="let data of dataList" class="py-4">
+      <div class="d-flex">
+        <ion-thumbnail>
+          <img [src]="avatarPrefix + data['commenterWid']">
+        </ion-thumbnail>
+        <div class="pl-2">
+          <div>{{data['nickname']}}</div>
+          <div class="d-flex justify-content-between">
+            <div style="color: gray; font-size: small;">{{data['company']}}</div>
+            <div class="ml-2" style="color: gray; font-size: small;">{{data['position'] | splitLast: '-': 10}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="pl-5" [innerHTML]="data['comment'] | html" (click)="makeComment(data['id'], data['commenterWid'], data['nickname'])"></div>
+      <div class="text-right text-muted small">{{data['createTime'] | dfnsFormatDistanceToNow }}</div>
+    </div>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+

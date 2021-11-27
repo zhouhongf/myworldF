@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+    <mat-toolbar style="background-color: lightgray; height: 80px; padding: 28px 0 0 0;">
+        <button mat-button class="fa fa-chevron-left" routerLink="/chat/home"></button>
+        <h5>{{groupData?.displayName}}</h5>
+        <button mat-button class="ml-auto" (click)="snav.toggle()">
+            <ion-icon name="more" mode="ios" size="large"></ion-icon>
+        </button>
+    </mat-toolbar>
+</ion-header>
+
+<ion-content [color]="sideMenuOpen ? 'dark' : 'medium'">
+    <mat-sidenav-container>
+        <mat-sidenav #snav mode="push" position="end" style="width: 80px; background-color: gray;"
+                     fixedInViewport fixedTopGap="80" fixedBottomGap="50"
+                     (openedStart)="sideMenuOpen = true" (closedStart)="sideMenuOpen = false">
+            <div class="text-center">
+                <p class="text-light small">显示昵称</p>
+                <mat-slide-toggle [(ngModel)]="showMemberNickname"></mat-slide-toggle>
+            </div>
+
+            <div class="m-2" *ngFor="let friend of friendsInGroup">
+                <ion-thumbnail style="cursor: pointer;" (click)="goToFriendDetail(friend)">
+                    <img [src]="friend.avatar">
+                </ion-thumbnail>
+                <p class="text-light small text-truncate">{{showMemberNickname ? friend.nickname : friend.displayName}}</p>
+            </div>
+        </mat-sidenav>
+
+        <mat-sidenav-content style="background-color: lightgray;">
+            <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+                <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+            </ion-refresher>
+
+            <div class="message-wrap">
+                <div *ngFor="let msg of messages;" class="message" [class.left]="msg.toName === userWid" [class.right]="msg.toName !== userWid">
+
+                    <img class="user-img" [src]="avatarPrefix + msg.fromName | photo">
+
+                    <div class="msg-detail">
+                        <div class="msg-info"><p id="{{msg.sendTime}}">{{msg.sendTime | dfnsFormatDistanceToNow }}</p>
+                        </div>
+
+                        <div *ngIf="msg.type === textType" class="msg-content">
+                            <span class="triangle"></span>
+                            <p class="line-breaker" (click)="readMessage(msg.content)">{{msg.content}}</p>
+                        </div>
+
+                        <div *ngIf="msg.type === fileType" class="msg-content" (click)="downloadFile(msg)"
+                             style="cursor: pointer;">
+                            <span class="triangle"></span>
+                            <div class="line-breaker row">
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <span class="fa fa-file" style="font-size: 24px;"></span>
+                                </div>
+                                <div class="col-8" style="font-size: 16px;">{{msg.content}}</div>
+                            </div>
+                        </div>
+
+                        <img *ngIf="msg.type === photoType" class="msg-content" style="padding: 0; max-width: 80px; max-height: 60px;" [src]="msg.link | photo" ngxViewer>
+                    </div>
+                </div>
+            </div>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</ion-content>
+
+<ion-footer class="ion-no-border" [style.margin-bottom]="keyboardHeight">
+    <ion-item>
+        <ion-button fill="clear" color="warning" (click)="startListen()">
+            <ion-icon name="volume-medium-sharp" size="large" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-textarea appAutoresize="200" rows="1" [(ngModel)]="messageContent" (ionFocus)="onFocus()"></ion-textarea>
+        <ion-button *ngIf="messageContent" fill="clear" slot="end" color="warning" (click)="sendMsg()">
+            <ion-icon name="send-sharp" size="large"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!messageContent" fill="clear" slot="end" color="warning" (click)="sendFile()">
+            <ion-icon name="add" size="large"></ion-icon>
+        </ion-button>
+    </ion-item>
+</ion-footer>

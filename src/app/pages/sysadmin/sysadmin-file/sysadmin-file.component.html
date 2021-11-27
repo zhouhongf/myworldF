@@ -1,0 +1,57 @@
+<ion-header>
+  <mat-toolbar color="warn" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <div class="small">文件管理</div>
+    <button mat-button class="ml-auto fa" [ngClass]="showDetail ? 'fa-mail-reply' : 'fa-plus'" (click)="showDetail = !showDetail"></button>
+    <button mat-button *ngIf="!showDetail" class="fa fa-minus" (click)="toDelete = !toDelete"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!showDetail">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="table-responsive-sm">
+    <table class="table table-hover table-borderless small">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col" *ngIf="toDelete">#</th>
+        <th scope="col">名称</th>
+        <th scope="col">版本</th>
+        <th scope="col">更新</th>
+        <th scope="col">大小</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of elementData;" (click)="choose(data)">
+        <th scope="row" class="text-center text-danger" *ngIf="toDelete"><span class="fa fa-minus-circle"></span></th>
+        <td>{{data.officialName}}</td>
+        <td>{{data.versionNumber}}</td>
+        <td>{{data.updateTime | date:'MM-dd HH:mm:ss'}}</td>
+        <td>{{data.size}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>
+
+<ion-content class="ion-padding" *ngIf="showDetail">
+  <div class="px-3">
+    <mat-form-field>
+      <input matInput placeholder="请输入文件名称，格式为6-18位大写字母" [formControl]="officialName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="请输入文件版本号，格式为：0.0.0" [formControl]="versionNumber">
+    </mat-form-field>
+  </div>
+
+  <ion-item button>
+    <div class="text-nowrap">{{file ? file.name : '选择文件'}}</div>
+    <input type="file" class="custom-file-input" (change)="onChangeFile($event)">
+  </ion-item>
+
+  <br>
+  <ion-button class="ion-padding" expand="full" (click)="uploadFile()" [disabled]="!officialName.valid || !versionNumber.valid">确定上传</ion-button>
+</ion-content>

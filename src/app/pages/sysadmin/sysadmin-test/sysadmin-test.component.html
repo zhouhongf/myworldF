@@ -1,0 +1,37 @@
+<ion-header>
+  <mat-toolbar color="warn" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <div class="small">测试页面</div>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="full" (click)="searchBankLocation()">获取银行</ion-button>
+  <ion-button expand="full" (click)="getLocation()">获取定位</ion-button>
+
+  <ion-item-divider>以下为显示内容</ion-item-divider>
+  <ion-textarea autoGrow [(ngModel)]="showData"></ion-textarea>
+
+  <div class="py-5">
+    <ion-button expand="full" (click)="testCheck()">testCheck</ion-button>
+    <ion-button expand="full" (click)="testStartListen()">testStartListen</ion-button>
+    <ion-button expand="full" (click)="testStopListen()">testStopListen</ion-button>
+    <ion-button expand="full" (click)="testSupportedLanguages()">testSupportedLanguages</ion-button>
+    <ion-button expand="full" (click)="testPermission()">testPermission</ion-button>
+    <ion-button expand="full" (click)="testRequestPermission()">testRequestPermission</ion-button>
+  </div>
+
+  <div class="py-5">
+    <ion-button expand="full" (click)="checkDirectory()">checkDirectory</ion-button>
+    <ion-button expand="full" (click)="testRecord()">testRecord</ion-button>
+    <ion-button expand="full" (click)="testPlay()">testPlay</ion-button>
+    <ion-button expand="full" (click)="testPause()">testPause</ion-button>
+    <ion-button expand="full" (click)="testStop()">testStop</ion-button>
+    <ion-button expand="full" (click)="testRelease()">testRelease </ion-button>
+  </div>
+
+</ion-content>
+
+
+
+

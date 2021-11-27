@@ -1,0 +1,39 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <h5>统计图表</h5>
+    <button mat-button class="ml-auto fa fa-chevron-circle-left" (click)="goBack()"></button>
+  </mat-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+
+  <div class="row" [hidden]="showChart">
+    <div class="col-6 p-0 box-col">
+      <button mat-stroked-button class="box-button" (click)="doBucket('risk')">
+        <div class="text-muted" style="font-size: large">风险等级</div>
+      </button>
+    </div>
+    <div class="col-6 p-0 box-col">
+      <button mat-stroked-button class="box-button" (click)="doBucket('term')">
+        <div class="text-muted" style="font-size: large">理财期限</div>
+      </button>
+    </div>
+    <div class="col-6 p-0 box-col">
+      <button mat-stroked-button class="box-button" (click)="doBucket('rate_max')">
+        <div class="text-muted" style="font-size: large">最高收益</div>
+      </button>
+    </div>
+    <div class="col-6 p-0 box-col">
+      <button mat-stroked-button class="box-button" (click)="doBucket('rate_min')">
+        <div class="text-muted" style="font-size: large">最低收益</div>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showChart" class="py-4">
+    <div echarts [options] = "chartOption"></div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,28 @@
+<ion-header class="ion-no-border">
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <button mat-button type="button" class="fa fa-chevron-left" routerLink="/sysuser/home"></button>
+    <h5>招聘关注</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item *ngFor="let one of dataShow" button (click)="goToDetail(one)">
+    <ion-avatar slot="start">
+      <img [src]="one['bankName'] | bankLogo">
+    </ion-avatar>
+    <ion-label>
+      <div>{{one['name']}}</div>
+      <p>{{one['place']}}</p>
+    </ion-label>
+    <ion-note slot="end">
+      <div class="text-info text-right">{{one['bankName']}}</div>
+      <p>{{one['datePublish'] | date: 'yyyy-MM-dd'}}</p>
+    </ion-note>
+  </ion-item>
+</ion-content>
+
+

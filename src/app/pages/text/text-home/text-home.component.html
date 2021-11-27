@@ -1,0 +1,29 @@
+<ion-header>
+  <mat-toolbar #mainHeaderText class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button class="fa fa-search ml-auto" routerLink="/text/search"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="scrollEvent($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="pane" [style.background-image]="imageUrl"></div>
+
+  <ion-item *ngFor="let one of dataShow" button (click)="goToDetail(one)">
+    <ion-avatar slot="start">
+      <img [src]="one['bank_name'] | bankLogo">
+    </ion-avatar>
+    <ion-label>
+      <div>{{one['name']}}</div>
+      <p>{{one['createTime'] | date: 'yyyy-MM-dd'}}</p>
+    </ion-label>
+  </ion-item>
+
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

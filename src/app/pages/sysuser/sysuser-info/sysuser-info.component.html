@@ -1,0 +1,104 @@
+<ion-header>
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <button mat-button [hidden]="toShow" type="button" class="fa fa-chevron-left" (click)="goBack()"></button>
+    <button mat-button *ngIf="toShow" type="button" class="fa fa-chevron-left" (click)="toShow = false"></button>
+    <h5>个人资料</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+
+  <div [hidden]="toShow" class="ion-padding bg-light text-dark">
+    <div class="py-5">
+      <p><strong>真实姓名：</strong>{{realname.value}}</p>
+      <p><strong>电子邮箱：</strong>{{email.value}}</p>
+      <p><strong>职业身份：</strong>{{idtype.value}}</p>
+      <p><strong>职能类别：</strong>{{position.value}}</p>
+      <p><strong>行业分类：</strong>{{industry.value}}</p>
+      <p><strong>单位名称：</strong>{{company.value}}</p>
+      <p><strong>所属区域：</strong>{{placebelong.value}}</p>
+      <p><strong>详细地址：</strong>{{address.value}}</p>
+    </div>
+
+    <ion-button type="button" fill="outline" expand="block" (click)="toShow = true">修改</ion-button>
+    <br><br>
+  </div>
+
+  <div *ngIf="toShow" class="p-2">
+    <form [formGroup]="userInfoForm" novalidate>
+      <mat-card>
+        <mat-form-field>
+          <input matInput type="text" formControlName="realname" placeholder="真实姓名(选填)">
+        </mat-form-field>
+        <section class="py-2">
+          <label class="mr-4">性别</label>
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button [value]="1" class="px-2">男</mat-radio-button>
+            <mat-radio-button [value]="2" class="px-2">女</mat-radio-button>
+          </mat-radio-group>
+        </section>
+
+        <mat-form-field>
+          <input matInput type="text"  formControlName="email" placeholder="电子邮箱">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="idtype" placeholder="职业身份">
+            <mat-option *ngFor="let theData of theIdTypeData" [value]="theData.value">{{theData.value}}</mat-option>
+          </mat-select>
+          <mat-hint align="end">如<span class="text-danger">银行人员</span>需选择业务范围</mat-hint>
+        </mat-form-field>
+        <mat-form-field *ngIf="idtype.value === '银行人员'">
+          <mat-select placeholder="业务范围" formControlName="offer" multiple>
+            <mat-option *ngFor="let theData of theOfferData" [value]="theData.value">{{theData.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card>
+      <br>
+
+      <mat-card>
+        <positions [elementContent]="positionValue" (onSelectorsKeyup)="keyupHandlerOnPosition($event)"></positions>
+      </mat-card>
+      <br>
+
+      <mat-card>
+        <city-links [elementContent]="cityLinksValue" (onSelectorsKeyup)="keyupHandlerOnPlaceBelong($event)"></city-links>
+      </mat-card>
+      <br>
+
+      <mat-card>
+        <div *ngIf="idtype.value !== '银行人员'">
+          <industries [elementContent]="industryValue" (onSelectorsKeyup)="keyupHandlerOnIndustry($event)"></industries>
+          <mat-form-field>
+            <input matInput type="text" formControlName="company" placeholder="单位名称">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="idtype.value === '银行人员'">
+          <mat-form-field>
+            <mat-select formControlName="industry" placeholder="机构类型">
+              <mat-option *ngFor="let theData of theBankTypeData" [value]="theData.value">{{theData.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="机构名称" formControlName="company" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option}}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <input matInput type="text" formControlName="address" placeholder="详细地址">
+        </mat-form-field>
+      </mat-card>
+    </form>
+
+    <br>
+    <div>
+      <ion-button type="button" expand="block" [disabled]="!userInfoForm.valid" (click)="doSubmit()">提交</ion-button>
+    </div>
+  </div>
+
+
+</ion-content>
+
+

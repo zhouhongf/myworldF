@@ -1,0 +1,93 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button *ngIf="showContactDetail" mat-button class="fa fa-chevron-left" (click)="showContactDetail = false"></button>
+    <button *ngIf="!showContactDetail" mat-button class="fa fa-chevron-left" (click)="goBack()"></button>
+    <h5 [hidden]="showContactDetail">{{showUntag ? '未分类' : '编辑标签'}}</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium" class="my-contacts">
+  <div [hidden]="showContactDetail">
+    <form *ngIf="!showUntag" [formGroup]="tagForm" novalidate>
+      <ion-item-divider>标签名称</ion-item-divider>
+      <ion-item>
+        <ion-input clearInput placeholder="例如家人、朋友" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item-divider>成员</ion-item-divider>
+      <div formArrayName="phoneContacts" class="bg-light py-2 px-4" style="min-height: 200px;">
+        <div class="row">
+          <div class="col-3 p-3" *ngFor="let phoneContact of phoneContacts.controls; let i=index" [formGroupName]="i">
+            <div class="image-header" matBadge="一" matBadgePosition="above after" matBadgeColor="warn" matBadgeSize="small" [matBadgeHidden]="hideBadge" (click)="hideBadge ? detailPhoneContact(phoneContact.value) : delPhoneContact(i, phoneContact.value)">
+              <img [src]="phoneContact.value['avatar']" style="border-radius: 10px;">
+              <div class="text-muted text-center text-truncate" style="font-size: 12px;">{{phoneContact.value['displayName']}}</div>
+            </div>
+          </div>
+          <div class="col-3 p-3">
+            <div class="image-header">
+              <img [src]="addUrl" (click)="showUntagFriends()">
+              <div style="font-size: 12px; color: white">.</div>
+            </div>
+          </div>
+          <div class="col-3 p-3">
+            <div class="image-header" (click)="hideBadge = !hideBadge">
+              <img [src]="delUrl" [style.background-color]="hideBadge ? '' : 'gray'">
+              <div style="font-size: 12px; color: white;">.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <ion-button class="ion-margin" expand="block" (click)="saveTag()" [disabled]="!name.valid">保存标签</ion-button>
+      <ion-button class="ion-margin" expand="block" (click)="delTag()" *ngIf="tagIdDetail && tagIdDetail !== 'NEW'" color="danger">删除标签</ion-button>
+    </form>
+
+    <div *ngIf="showUntag">
+      <div class="letter">
+        <div class="letter-right">
+          <span *ngFor="let letter of letters" (click)="scrollToTop(letter)">{{letter}}</span>
+        </div>
+      </div>
+
+      <ion-item-group *ngFor="let group of formatContacts">
+        <ion-item-divider color="light" id="{{group['key']}}">{{group['key']}}</ion-item-divider>
+        <ion-item *ngFor="let item of group['value']">
+          <ion-thumbnail slot="start" (click)="detailPhoneContact(item)" style="cursor: pointer">
+            <img class="rounded" [src]="item['avatar']">
+          </ion-thumbnail>
+          <ion-label><h5>{{item['displayName']}}</h5></ion-label>
+          <mat-checkbox (change)="selectThis($event)" [value]="item" color="warn" style="margin-right: 16px;"></mat-checkbox>
+        </ion-item>
+      </ion-item-group>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="showContactDetail">
+    <ion-item lines="full">
+      <ion-thumbnail slot="start" style="height: 150px; width: 150px;" class="py-4">
+        <img class="rounded" [src]="currentFriend.avatar">
+      </ion-thumbnail>
+      <ion-label class="pb-3 text-truncate">
+        <div>{{currentFriend.nickname}}</div>
+        <div class="small-text">备注名：{{currentFriend.displayName}}</div>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>电话号码</ion-label>
+      <ion-text>{{currentFriend.phoneNumber}}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>标签</ion-label>
+      <ion-text color="primary">{{currentFriend.tag}}</ion-text>
+    </ion-item>
+
+    <button class="mt-2 py-2 btn-block btn-light text-primary" (click)="goToMessageDetail()">发消息&nbsp;&nbsp;<span class="fa fa-comment-o"></span></button>
+  </div>
+
+</ion-content>
+
+
+

@@ -1,0 +1,78 @@
+<ion-header>
+  <mat-toolbar color="warn" style=" height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <div class="small">用户信息</div>
+    <div class="ml-auto" *ngIf="!showEdit">
+      <button mat-button *ngIf="showDetail" class="fa fa-plus" (click)="createUser()"></button>
+      <button mat-button *ngIf="showDetail" class="fa fa-minus" (click)="toDelete = !toDelete"></button>
+      <button mat-button *ngIf="showDetail" class="fa fa-mail-reply" (click)="closeList()"></button>
+    </div>
+    <button mat-button *ngIf="showEdit" class="ml-auto fa fa-mail-reply" (click)="showEdit = false"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!showDetail">
+  <div class="list-group">
+    <button type="button" class="list-group-item list-group-item-action" (click)="getList('ADMIN')">管理员用户</button>
+    <button type="button" class="list-group-item list-group-item-action" (click)="getList('USERS')">普通用户</button>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="showDetail">
+  <div *ngIf="!showEdit">
+    <div class="table-responsive-sm">
+      <table class="table table-hover table-borderless small">
+        <thead class="thead-light">
+        <tr class="text-center">
+          <th scope="col" *ngIf="toDelete">#</th>
+          <th scope="col">账号</th>
+          <th scope="col">角色</th>
+          <th scope="col">更新</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of elementData;" (click)="choose(data)">
+          <th scope="row" class="text-center text-danger" *ngIf="toDelete"><span class="fa fa-minus-circle"></span></th>
+          <td>{{data.username}}</td>
+          <td>{{data.sysroles}}</td>
+          <td>{{data.updateTime | date:'MM-dd HH:mm:ss'}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <div class="m-2 d-flex btn-group mat-elevation-z2">
+      <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPagePrevious()">
+        <span class="fa fa-angle-left"></span>
+      </button>
+      <button type="button" class="btn btn-secondary" [disabled]="pageIndex" (click)="doPage()">{{pageIndex ? pageIndex : '下一页'}}</button>
+      <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPageNext()">
+        <span class="fa fa-angle-right"></span>
+      </button>
+    </div>
+  </div>
+
+
+  <form *ngIf="showEdit" [formGroup]="adminForm" class="p-2">
+    <mat-card>
+      <mat-form-field>
+        <input matInput placeholder="手机号码" formControlName="username">
+        <mat-error *ngIf="username.hasError('pattern')">手机号格式不正确</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="设置密码" formControlName="password" [type]="isShowPassword ? 'text':'password'">
+        <button matSuffix mat-icon-button (click)="isShowPassword = !isShowPassword"><span [ngClass]="isShowPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></span></button>
+        <mat-error *ngIf="password.hasError('pattern')">密码格式为6到18位字母数字或下划线</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="确认密码" formControlName="passwordConfirm" type="password">
+      </mat-form-field>
+      <mat-selection-list formControlName="roles">
+        <mat-list-option *ngFor="let theData of playerTypes" [value]="theData.value">{{theData.value}}</mat-list-option>
+      </mat-selection-list>
+    </mat-card>
+    <br>
+    <ion-button expand="block" [disabled]="!adminForm.valid" (click)="doCreateUser()">提交</ion-button>
+  </form>
+</ion-content>

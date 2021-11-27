@@ -1,0 +1,7 @@
+{
+  "name": "jingrongbank",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

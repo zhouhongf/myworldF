@@ -1,0 +1,84 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button *ngIf="!showConfirm" class="fa fa-chevron-left" routerLink="/chat/contact"></button>
+    <button mat-button *ngIf="showConfirm" class="fa fa-chevron-left" (click)="showConfirm = !showConfirm"></button>
+    <h5>{{showConfirm ? '验证伙伴' : '新伙伴'}}</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div *ngIf="!showConfirm">
+    <div class="position-sticky fixed-top" style="background-color: lightgray;">
+      <ion-searchbar placeholder="姓名/手机号" autocomplete="on" (ionInput)="getItems($event)" (ionCancel)="onCancelSearch($event)"></ion-searchbar>
+    </div>
+
+    <div *ngIf="!isSearching">
+      <ion-item-group *ngFor="let item of formatContacts">
+        <ion-item button (click)="goToContactDetail(item)">
+          <ion-thumbnail slot="start">
+            <img class="rounded" [src]="item.avatar">
+          </ion-thumbnail>
+          <ion-label>
+            <div>{{item.displayName}}</div>
+            <div class="small-text">{{item.phoneNumber}}</div>
+          </ion-label>
+          <ion-text *ngIf="item.role === 'APPLIER'" slot="end" class="small-text">等待验证</ion-text>
+          <ion-button *ngIf="item.role === 'TARGET'" slot="end" color="primary" (click)="showContactConfirm(item)">验证</ion-button>
+        </ion-item>
+      </ion-item-group>
+    </div>
+
+    <div *ngIf="isSearching">
+      <ion-item *ngFor="let item of searchingItems" (click)="goToContactDetail(item)">
+        <ion-thumbnail slot="start">
+          <img class="rounded" [src]="item.avatar">
+        </ion-thumbnail>
+        <ion-label>
+          <div>{{item.displayName}}</div>
+          <div class="small-text">{{item.wid}}</div>
+        </ion-label>
+        <ion-text *ngIf="item.role === 'APPLIER'" slot="end" class="small-text">等待验证</ion-text>
+        <ion-button *ngIf="item.role === 'TARGET'" slot="end" color="primary" (click)="showContactConfirm(item)">验证</ion-button>
+      </ion-item>
+    </div>
+  </div>
+
+  <div *ngIf="showConfirm">
+    <form [formGroup]="confirmForm" novalidate>
+      <ion-item>
+        <ion-label position="stacked" color="medium">对方发来的验证消息</ion-label>
+        <ion-text style="min-height: 160px;">{{friendApplyContent}}</ion-text>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label position="floating" color="medium">验证结果</ion-label>
+        <ion-select [interfaceOptions]="customAlertOptions" interface="alert" formControlName="result">
+          <ion-select-option value="验证通过">验证通过</ion-select-option>
+          <ion-select-option value="拒绝通过">拒绝通过</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="mt-2" *ngIf="result.value === '验证通过'">
+        <ion-item>
+          <ion-label position="floating" color="medium">为伙伴设置备注名称</ion-label>
+          <ion-textarea clearInput formControlName="remarkName"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" color="medium">为伙伴添加标签分类</ion-label>
+          <ion-select [interfaceOptions]="customAlertOptions" interface="alert" formControlName="tagName">
+            <ion-select-option *ngFor="let tag of tagNameList" [value]="tag">{{tag}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <ion-item class="mt-2" *ngIf="result.value === '拒绝通过'">
+        <ion-label position="floating" color="medium">拒绝理由</ion-label>
+        <ion-textarea clearInput formControlName="reject"></ion-textarea>
+      </ion-item>
+      <br>
+      <ion-button class="ion-margin" expand="block" (click)="confirmFriendApply()" [disabled]="!confirmForm.valid">提交</ion-button>
+    </form>
+
+  </div>
+
+</ion-content>

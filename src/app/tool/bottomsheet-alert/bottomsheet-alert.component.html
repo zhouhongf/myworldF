@@ -1,0 +1,10 @@
+<div style="min-height: 300px;" class="p-4">
+  <h5 class="text-center">{{theData['title']}}</h5>
+  <br>
+  <mat-form-field style="width: 100%; font-size: 18px;" [floatLabel]="'never'">
+    <input type="text" placeholder="请输入文字" matInput [formControl]="myInput">
+  </mat-form-field>
+  <br><br>
+  <button mat-flat-button color="warn" style="width: 100%; font-size: 18px;" (click)="doConfirm()" [disabled]="!myInput.valid">确定</button>
+</div>
+

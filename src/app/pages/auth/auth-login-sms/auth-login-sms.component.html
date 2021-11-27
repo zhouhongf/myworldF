@@ -1,0 +1,27 @@
+<ion-header>
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <button mat-button type="button" class="fa fa-chevron-left" routerLink="/auth/login"></button>
+    <h5>用户登录</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <form [formGroup]="smsLoginForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-input clearInput type="text" formControlName="username" placeholder="手机号码"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input clearInput type="text" formControlName="smsCode" placeholder="短信验证"></ion-input>
+        <ion-button slot="end" fill="clear" [disabled]="disabled || !username.valid" (click)="tryGetCode($event)">{{tips}}</ion-button>
+      </ion-item>
+    </ion-list>
+
+    <br><br>
+    <div class="ion-padding">
+      <ion-button expand="block" [disabled]="!smsLoginForm.valid" (click)="smsLogin()">登录</ion-button>
+    </div>
+  </form>
+</ion-content>
+

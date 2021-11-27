@@ -1,0 +1,86 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button class="ml-auto fa fa-chevron-circle-left" (click)="goBack()"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [ngClass]="dataShow?.typeMain === '社会招聘' ? 'bg-secondary' : 'bg-info'" class="text-light text-center py-2">{{dataShow?.typeMain}}</div>
+  <div class="container" style="min-height: 900px; padding: 30px 8px;">
+    <div class="d-flex justify-content-between">
+      <ion-thumbnail>
+        <img [src]="dataShow?.bankName | bankLogo">
+      </ion-thumbnail>
+      <div>
+        <h4 class="text-secondary">{{dataShow?.bankName}}</h4>
+        <h5 class="text-info text-right">
+          <span>{{dataShow?.branchName}}</span>
+          <span>&nbsp;&nbsp;{{dataShow?.position}}</span>
+        </h5>
+      </div>
+    </div>
+
+    <hr>
+    <h3 class="py-4 text-center">{{dataShow?.name}}</h3>
+    <h5 class="text-center text-secondary">{{dataShow?.department}}</h5>
+    <hr style="border-style: dashed;">
+
+    <div class="py-4">
+      <ion-item lines="none">
+        <ion-label color="dark">工作地点</ion-label>
+        <ion-text slot="end">{{dataShow?.place}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">招聘人数</ion-label>
+        <ion-text slot="end">{{dataShow?.recruitNum}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">学历要求</ion-label>
+        <ion-text slot="end">{{dataShow?.education}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">专业要求</ion-label>
+        <ion-text slot="end">{{dataShow?.major}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">工作经验</ion-label>
+        <ion-text slot="end">{{dataShow?.yearsWork}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">发布日期</ion-label>
+        <ion-text slot="end">{{dataShow?.datePublish | date: 'yyyy-MM-dd'}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">截止日期</ion-label>
+        <ion-text slot="end">{{dataShow?.dateClose | date: 'yyyy-MM-dd'}}</ion-text>
+      </ion-item>
+    </div>
+
+    <div class="py-4" *ngIf="dataShow?.content">
+      <ion-item>
+        <ion-label color="dark">职位描述</ion-label>
+      </ion-item>
+      <div [innerHTML]="dataShow?.content"></div>
+    </div>
+
+    <div class="py-4" *ngIf="dataShow?.requirement">
+      <ion-item>
+        <ion-label color="dark">任职要求</ion-label>
+      </ion-item>
+      <div [innerHTML]="dataShow?.requirement"></div>
+    </div>
+
+    <hr>
+    <div class="d-flex justify-content-between">
+      <button mat-button (click)="goToExternal(dataShow?.url)">
+        <span class="fa fa-link text-danger"></span>
+        <span class="px-2 text-info">原文链接</span>
+      </button>
+      <button mat-button (click)="setFavor()" *ngIf="isLogin">
+        <span [ngClass]="isFavor ? 'fa fa-heart text-danger' : 'fa fa-heart-o text-danger'"></span>
+        <span class="px-2">收藏</span>
+      </button>
+    </div>
+  </div>
+</ion-content>

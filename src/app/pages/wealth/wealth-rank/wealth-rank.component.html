@@ -1,0 +1,42 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button class="fa fa-chevron-left" routerLink="/wealth"></button>
+    <h5>理财排名</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div class="table-responsive-lg">
+    <table mat-table [dataSource]="dataSource" class="table-hover">
+      <ng-container matColumnDef="bankName">
+        <th mat-header-cell *matHeaderCellDef>银行名称</th>
+        <td mat-cell *matCellDef="let element">{{element.bankName}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef>产品代码</th>
+        <td mat-cell *matCellDef="let element">{{element.code}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>预期收益</th>
+        <td mat-cell *matCellDef="let element">{{element.rate}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToPage(row)"></tr>
+    </table>
+
+    <!-- <mat-paginator *ngIf="!isMobile" showFirstLastButtons hidePageSize (page)="doPageBrowser($event)" [length]="pageLength" [pageSize]="pageSize" [pageIndex]="pageIndex"></mat-paginator>-->
+    <br><br>
+    <div class="m-2 d-flex btn-group mat-elevation-z2">
+      <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPagePrevious()">
+        <span class="fa fa-angle-left"></span>
+      </button>
+      <button type="button" class="btn btn-secondary" [disabled]="pageIndex" (click)="doPage()">{{pageIndex ? pageIndex : '下一页'}}</button>
+      <button type="button" class="btn btn-secondary" *ngIf="pageIndex" (click)="doPageNext()">
+        <span class="fa fa-angle-right"></span>
+      </button>
+    </div>
+  </div>
+</ion-content>

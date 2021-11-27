@@ -1,0 +1,29 @@
+<mat-toolbar style="height: 80px; padding: 28px 0 0 0;" color="primary">
+    <button mat-button class="fa fa-bars" (click)="sidenavLeft.toggle()"></button>
+    <button mat-button class="ml-auto fa fa-reply" routerLink="/bank"></button>
+</mat-toolbar>
+
+<mat-sidenav-container style="flex: 1;">
+    <mat-sidenav #sidenavLeft mode="push">
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let data of currentBankLocationData; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{i + 1}}</mat-panel-title>
+                    <mat-panel-description><span class="text-truncate">{{data['name']}}</span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>{{data['address']}}</p>
+                <p>{{data['tel']}}</p>
+                <img class="img img-thumbnail" [src]="data['photoOne'] ? data['photoOne'] : noPic">
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-toolbar class="position-sticky fixed-bottom p-0 m-0">
+            <mat-paginator [length]="pageLength" [pageSize]="pageSize" hidePageSize (page)="doPage($event)" style="width: 100%;"></mat-paginator>
+        </mat-toolbar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <app-gaode-map></app-gaode-map>
+    </mat-sidenav-content>
+</mat-sidenav-container>

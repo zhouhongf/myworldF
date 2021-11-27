@@ -1,0 +1,47 @@
+<ion-header>
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <button mat-button type="button" *ngIf="!showNickname" class="fa fa-chevron-left" (click)="goBack()"></button>
+    <button mat-button type="button" *ngIf="showNickname" class="fa fa-chevron-left" (click)="showNickname = false"></button>
+    <h5>{{showNickname ? '昵称签名' : '用户设置'}}</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div *ngIf="!showNickname">
+    <ion-list>
+      <ion-item detail button (click)="showNickname = true">
+        <ion-label>昵称签名</ion-label>
+      </ion-item>
+      <ion-item detail button (click)="updateUserAvatar()">
+        <ion-label>设置头像</ion-label>
+      </ion-item>
+      <ion-item detail button routerLink="/sysuser/info">
+        <ion-label>用户资料</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list class="mt-2">
+      <ion-item detail routerLink="/sysuser/changepassword">
+        <ion-label>修改密码</ion-label>
+      </ion-item>
+      <ion-item detail routerLink="/sysuser/resetpassword">
+        <ion-label>重置密码</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="showNickname">
+    <ion-item>
+      <ion-label position="floating">设置昵称</ion-label>
+      <ion-input [formControl]="nickname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">个性签名</ion-label>
+      <ion-textarea autoGrow [formControl]="intro"></ion-textarea>
+    </ion-item>
+    <br><br>
+    <ion-button class="ion-margin" expand="block" (click)="saveNickname()" [disabled]="!nickname.valid">保存</ion-button>
+  </div>
+</ion-content>
+
+

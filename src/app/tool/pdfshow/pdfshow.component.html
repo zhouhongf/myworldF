@@ -1,0 +1,25 @@
+<!--<ion-header>
+  <mat-toolbar class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <div class="ml-auto pr-3">
+      <button mat-button class="fa fa-search-plus" (click)="doZoomPlus()"></button>
+      <button mat-button class="fa fa-search-minus" (click)="doZoomMinus()"></button>
+    </div>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <pdf-viewer [src]="displayData.pdfSource.url"
+              [show-all]="true"
+              [original-size]="false"
+              [zoom]=zoomSize
+              [render-text]="false"
+              [autoresize]="true"
+              style="display: block" >
+  </pdf-viewer>
+</ion-content>-->
+
+<ion-content color="dark">
+  <br><br>
+  <ng2-pdfjs-viewer [pdfSrc]="displayData.pdfSource.url"></ng2-pdfjs-viewer>
+</ion-content>
+

@@ -1,0 +1,117 @@
+<ion-header>
+  <mat-toolbar style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="d-flex justify-content-between align-items-center p-2">
+    <ion-thumbnail>
+      <img [src]="bankName | bankLogo">
+    </ion-thumbnail>
+    <h4 class="text-secondary">{{bankName}}</h4>
+  </div>
+
+  <div>
+    <img [src]="imageURL | photo" style="width: 100%; height: 100%">
+  </div>
+
+  <div class="mt-2" *ngIf="dataTextsNews.length > 0">
+    <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">新闻头条</div>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let text of dataTextsNews" (click)="goToText(text.id)">
+        <h3 matLine>{{text.name}}</h3>
+        <p matLine>{{text.date | date: 'yyyy-MM-dd'}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <div class="text-right small" style="width: 100%" [routerLink]="['/text/category', {keyone: '新闻', bankName: bankName}]">更多 >></div>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+
+  <div *ngIf="dataWealth.length > 0">
+    <hr style="border: 4px solid lightgray">
+    <div class="mt-2">
+      <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">最新理财</div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let wealth of dataWealth" (click)="goToWealth(wealth.id)">
+          <div matLine>{{wealth.name}}</div>
+          <div matLine class="text-right text-danger">{{wealth.rate}}</div>
+          <div matLine class="text-muted">
+            起购{{wealth.amountBuyMin}}万元&nbsp;&nbsp;|&nbsp;&nbsp;期限{{wealth.term}}天&nbsp;&nbsp;|&nbsp;&nbsp;风险{{wealth.risk}}级
+          </div>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="text-right small" style="width: 100%" [routerLink]="['/wealth/home', {bankName: bankName}]">更多 >></div>
+        </mat-list-item>
+      </mat-nav-list>
+      <br>
+    </div>
+  </div>
+
+  <div *ngIf="dataTextsFinance.length > 0">
+    <hr style="border: 4px solid lightgray">
+    <div class="mt-2">
+      <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">普惠金融</div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let text of dataTextsFinance" (click)="goToText(text.id)">
+          <img matListAvatar [src]="bankName | bankLogo">
+          <h3 matLine>{{text.name}}</h3>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="text-right small" style="width: 100%" [routerLink]="['/bank/text', {keyone: '公司金融', keytwo: '小微金融', bankName: bankName}]">更多 >></div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </div>
+
+  <div *ngIf="dataTextsImportant.length > 0">
+    <hr style="border: 4px solid lightgray">
+    <div class="mt-2">
+      <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">服务公告</div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let text of dataTextsImportant" (click)="goToText(text.id)">
+          <h3 matLine>{{text.name}}</h3>
+          <p matLine>{{text.date | date: 'yyyy-MM-dd'}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="text-right small" style="width: 100%" [routerLink]="['/text/category', {keyone: '公告', keytwo: '其他', bankName: bankName}]">更多 >></div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </div>
+
+  <div *ngIf="dataTextsBuy.length > 0">
+    <hr style="border: 4px solid lightgray">
+    <div class="mt-2">
+      <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">采购公告</div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let text of dataTextsBuy" (click)="goToText(text.id)">
+          <h3 matLine>{{text.name}}</h3>
+          <p matLine>{{text.date | date: 'yyyy-MM-dd'}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="text-right small" style="width: 100%" [routerLink]="['/text/category', {keyone: '公告', keytwo: '采购', bankName: bankName}]">更多 >></div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </div>
+
+  <div *ngIf="dataTextsHR.length > 0">
+    <hr style="border: 4px solid lightgray">
+    <div class="mt-2">
+      <div class="text-info text-center p-2" style="border-bottom: 1px solid lightgray;">招聘公告</div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let text of dataTextsHR" (click)="goToText(text.id)">
+          <h3 matLine>{{text.name}}</h3>
+          <p matLine>{{text.date | date: 'yyyy-MM-dd'}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="text-right small" style="width: 100%" [routerLink]="['/text/category', {keyone: '公告', keytwo: '招聘', bankName: bankName}]">更多 >></div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </div>
+  <ion-button fill="outline" expand="full" size="large" [routerLink]="['/bank/hr', {bankName: bankName}]">招聘职位</ion-button>
+  <br><br>
+</ion-content>

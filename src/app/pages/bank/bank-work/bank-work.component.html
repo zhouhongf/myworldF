@@ -1,0 +1,13 @@
+<ion-header>
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <h5>{{target}}</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div class="row">
+    <button mat-stroked-button color="accent" class="col-4 button-box" *ngFor="let name of bankworkList" (click)="goToPage(name)">{{name}}</button>
+  </div>
+</ion-content>
+

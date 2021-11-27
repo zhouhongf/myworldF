@@ -1,0 +1,58 @@
+<ion-header>
+	<mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+		<button mat-button *ngIf="!showApplying" class="fa fa-chevron-left" [routerLink]="backUrl ? backUrl : '/chat'"></button>
+		<button mat-button *ngIf="showApplying" class="fa fa-chevron-left" (click)="showApplying = !showApplying"></button>
+		<h5 *ngIf="showApplying">{{isFriend === 'YES' ? '修改' : '申请'}}</h5>
+	</mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+
+	<div [hidden]="showApplying">
+		<ion-item lines="full">
+			<ion-thumbnail slot="start" style="height: 150px; width: 150px;" class="py-4">
+				<img class="rounded" [src]="currentFriend.avatar">
+			</ion-thumbnail>
+			<ion-label class="pb-3 text-truncate">
+				<div>{{currentFriend.nickname}}</div>
+				<div class="small-text" *ngIf="remarkName.value">备注名：{{remarkName.value}}</div>
+			</ion-label>
+		</ion-item>
+
+		<ion-item *ngIf="currentFriend.phoneNumber">
+			<ion-label>电话号码</ion-label>
+			<ion-text>{{currentFriend.phoneNumber}}</ion-text>
+		</ion-item>
+		<ion-item *ngIf="tagName.value" button (click)="showApplying = !showApplying">
+			<ion-label>标签</ion-label>
+			<ion-text color="primary">{{tagName.value}}</ion-text>
+		</ion-item>
+
+		<button class="mt-2 py-2 btn-block btn-light text-primary" *ngIf="isFriend === 'YES'" (click)="goToMessageDetail()">发消息&nbsp;&nbsp;<span class="fa fa-comment-o"></span></button>
+		<button class="mt-2 py-2 btn-block btn-light text-primary" *ngIf="isFriend === 'NO'" (click)="showApplying = !showApplying">添加为伙伴</button>
+		<div class="mt-2 py-2 bg-light text-dark text-center" *ngIf="isFriend === 'PENDING'">等待验证</div>
+	</div>
+
+	<div *ngIf="showApplying">
+		<ion-item *ngIf="isFriend === 'NO'">
+			<ion-label position="stacked" color="medium">发送验证申请，等待对方通过</ion-label>
+			<ion-textarea clearInput [formControl]="applyContent"></ion-textarea>
+		</ion-item>
+
+		<ion-item>
+			<ion-label position="stacked" color="medium">为伙伴设置备注名称</ion-label>
+			<ion-textarea clearInput [formControl]="remarkName"></ion-textarea>
+		</ion-item>
+		<ion-item>
+			<ion-label position="floating" color="medium">为伙伴添加标签分类</ion-label>
+			<ion-select [interfaceOptions]="customAlertOptions" interface="alert" [formControl]="tagName">
+				<ion-select-option *ngFor="let tag of tagNameList" [value]="tag">{{tag}}</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<br>
+		<ion-button class="ion-margin" *ngIf="isFriend === 'NO'" expand="block" [disabled]="!applyContent.valid || !remarkName.valid" (click)="sendApply()">发送申请</ion-button>
+		<ion-button class="ion-margin" *ngIf="isFriend === 'YES'" expand="block" (click)="updateFriendInfo()">修改</ion-button>
+	</div>
+
+
+</ion-content>

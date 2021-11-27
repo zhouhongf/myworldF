@@ -1,0 +1,54 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <mat-toolbar-row *ngIf="isSearching">
+      <button mat-button class="fa fa-chevron-left" (click)="isSearching = false"></button>
+      <h5>搜索伙伴</h5>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="!isSearching">
+      <button mat-button class="fa fa-search" (click)="searchContact()"></button>
+      <button mat-button class="fa fa-plus-circle ml-auto" routerLink="/chat/contactAdd"></button>
+      <button mat-button class="fa fa-th" routerLink="/chat"></button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div *ngIf="!isSearching">
+    <div class="letter">
+      <div class="letter-right">
+        <span *ngFor="let letter of letters" (click)="scrollToTop(letter)">{{letter}}</span>
+      </div>
+    </div>
+
+    <ion-item button routerLink="/chat/contactNew">
+      <ion-thumbnail slot="start" class="rounded" style="background-color: goldenrod">
+        <ion-icon name="person-add" size="large" style="margin: 10px;" color="light"></ion-icon>
+      </ion-thumbnail>
+      <ion-label><h5>新伙伴<span *ngIf="friendApplyNum" class="badge badge-pill badge-danger">{{friendApplyNum}}</span></h5></ion-label>
+    </ion-item>
+    <ion-item-group *ngFor="let group of formatContacts">
+      <ion-item-divider color="light" id="{{group.key}}">{{group.key}}</ion-item-divider>
+      <ion-item button *ngFor="let item of group.value | orderBy:['pinyinName']" (click)="selectThis(item)">
+        <ion-thumbnail slot="start">
+          <img class="rounded" [src]="item['avatar']">
+        </ion-thumbnail>
+        <ion-label><h5>{{item['displayName']}}</h5></ion-label>
+      </ion-item>
+    </ion-item-group>
+  </div>
+
+  <div *ngIf="isSearching">
+    <div class="position-sticky fixed-top">
+      <ion-searchbar autocomplete="on" (ionInput)="getItems($event)" (ionCancel)="onCancelSearch($event)"></ion-searchbar>
+    </div>
+    <ion-list class="py-0">
+      <ion-item *ngFor="let item of searchingItems" (click)="selectThis(item)">
+        <ion-thumbnail slot="start">
+          <img class="rounded" [src]="item['avatar']">
+        </ion-thumbnail>
+        <ion-label><h5>{{item['displayName']}}</h5></ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>

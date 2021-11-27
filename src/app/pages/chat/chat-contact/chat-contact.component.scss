@@ -1,0 +1,32 @@
+.letter {
+  display: flex;
+  width: 30px;
+  position: fixed;
+  right: 0;
+  top: 90px;
+  z-index: 10010;
+  justify-content: center;
+  align-items: center;
+  .letter-right {
+    font-size: 14px;
+    display: flex;
+    //flex-direction: column;
+    //flex-flow:1;
+    flex-flow:column nowrap;
+    //background: #ebebeb;
+    color: goldenrod;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    align-items: center;
+    span {
+      display: block;
+      padding: 1px 3px;
+    }
+  }
+}
+.letter:after{
+  display: block;
+  content: '';
+  clear: both;
+}
+

@@ -1,0 +1,36 @@
+<ion-header>
+  <mat-toolbar color="warn" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains"></ion-menu-button>
+    <div class="small">编辑文章</div>
+    <button mat-button class="ml-auto" [disabled]="!writingForm.valid" (click)="doSave(false)">草稿</button>
+    <button mat-button [disabled]="!writingForm.valid" (click)="doSave(true)">发布</button>
+    <button mat-button routerLink="/sysadmin/writing">返回</button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="writingForm" novalidate>
+    <div class="px-3">
+      <mat-form-field>
+        <input matInput placeholder="文章标题" formControlName="title">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="文章作者" formControlName="author">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="文章分类" formControlName="type">
+          <mat-option *ngFor="let data of writingTypeData" [value]="data.value">{{data.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="px-3">
+      <app-myquill></app-myquill>
+    </div>
+  </form>
+</ion-content>
+
+

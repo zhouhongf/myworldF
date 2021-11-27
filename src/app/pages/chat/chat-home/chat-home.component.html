@@ -1,0 +1,50 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <mat-toolbar-row *ngIf="!editTags">
+      <button mat-button class="fa fa-chevron-left" routerLink="/"></button>
+      <button mat-button class="fa fa-cog ml-auto" (click)="editTags = true"></button>
+      <button mat-button class="fa fa-address-card-o" routerLink="/chat/contact"></button>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="editTags">
+      <button mat-button class="fa fa-chevron-left" (click)="saveTagsOrder()"></button>
+      <button mat-button class="fa fa-plus ml-auto" (click)="goToTag()"></button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div class="row" *ngIf="!editTags">
+    <div class="col-4 p-0 box-col">
+      <button class="box-button bg-light" (click)="goToListGroup()">
+        <h3 style="color: goldenrod">{{chatGroupNumber}}</h3>
+        <div class="text-muted text-truncate">
+          <span>群聊</span>
+          <span class="badge badge-danger"></span>
+        </div>
+      </button>
+    </div>
+    <div class="col-4 p-0 box-col" *ngFor="let tag of tags;">
+      <button class="box-button bg-light" (click)="goToListPair(tag)">
+        <h3 style="color: goldenrod">{{tag.nums}}</h3>
+        <div class="text-muted text-truncate">
+          <span>{{tag.name}}</span>
+          <span class="badge badge-danger" *ngIf="tag.messages > 0">{{tag.messages}}</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <ion-list *ngIf="editTags" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <ion-item class="example-box" cdkDrag *ngFor="let tag of tags;">
+      <ion-label>{{tag.name}}（<span class="text-warning">{{tag.nums}}</span>）</ion-label>
+      <ion-buttons *ngIf="tag.name !== '未分类'">
+        <ion-button (click)="goToTag(tag)"><ion-icon name="create" color="warning"></ion-icon></ion-button>
+        <ion-button (click)="delContactTag(tag)"><ion-icon name="close" color="danger"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+
+

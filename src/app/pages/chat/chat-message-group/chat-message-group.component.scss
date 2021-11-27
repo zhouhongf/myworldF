@@ -1,0 +1,126 @@
+$userBackgroundColor: #387ef5;
+$toUserBackgroundColor: #fff;
+
+ion-thumbnail {
+  --border-radius: 10px;
+  --size: 60px;
+}
+
+ion-content .scroll-content {
+  background-color: #f5f5f5;
+}
+
+
+.line-breaker {
+  white-space: pre-line;
+}
+
+.message-wrap {
+  padding: 0 10px;
+
+  .message {
+    position: relative;
+    padding: 7px 0;
+    color: black;
+
+    .user-img {
+      position: absolute;
+      border-radius: 5px;
+      width: 45px;
+      height: 45px;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+    }
+
+    .msg-detail {
+      width: 100%;
+      display: inline-block;
+
+      p {
+        margin: 0;
+      }
+
+      .msg-info {
+        p {
+          font-size: .8em;
+          color: #888;
+        }
+      }
+
+      .msg-content {
+        position: relative;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        width: auto;
+        max-width: 80%;
+
+        span.triangle {
+          background-color: #fff;
+          border-radius: 2px;
+          height: 8px;
+          width: 8px;
+          top: 12px;
+          display: block;
+          border-style: solid;
+          border-color: #ddd;
+          border-width: 1px;
+          -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+          position: absolute;
+        }
+      }
+
+    }
+  }
+
+  .message.left {
+
+    .user-img {
+      left: 0;
+    }
+
+    .msg-detail {
+      padding-left: 60px;
+
+      .msg-content {
+        background-color: $toUserBackgroundColor;
+        float: left;
+
+        span.triangle {
+          border-top-width: 0;
+          border-right-width: 0;
+          left: -5px;
+        }
+      }
+    }
+  }
+
+  .message.right {
+    .user-img {
+      right: 0;
+    }
+
+    .msg-detail {
+      padding-right: 60px;
+
+      .msg-info {
+        text-align: right;
+      }
+
+      .msg-content {
+        background-color: $userBackgroundColor;
+        float: right;
+
+        span.triangle {
+          background-color: $userBackgroundColor;
+          border-bottom-width: 0;
+          border-left-width: 0;
+          right: -5px;
+        }
+      }
+    }
+  }
+
+}
+

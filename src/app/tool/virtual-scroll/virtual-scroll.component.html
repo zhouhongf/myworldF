@@ -1,0 +1,4 @@
+<ion-virtual-scroll [items]="items" [headerFn]="myHeaderFn">
+  <ion-item-divider *virtualHeader="let header">{{ header }}</ion-item-divider>
+  <ion-item lines="none" button *virtualItem="let item">{{ item.keyword }}</ion-item>
+</ion-virtual-scroll>

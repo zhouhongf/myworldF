@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border">
+  <mat-toolbar #socialHeader class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button *ngIf="isLogin" class="fa fa-plus-circle ml-auto" (click)="goToBlogMake()"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="scrollEvent($event)">
+  <br><br><br><br>
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngFor="let data of blogShowList">
+    <div class="ion-padding">
+      <div *ngIf="data['anonymous'] === 0" class="d-flex py-2" (click)="goToSocialMine(data)">
+        <ion-thumbnail>
+          <img [src]="avatarPrefix + data['userWid']">
+        </ion-thumbnail>
+        <div class="pl-4 d-flex align-self-center flex-column">
+          <div>{{data['nickname']}}</div>
+          <div style="color: gray; font-size: small;">{{data['company']}}</div>
+          <div style="color: gray; font-size: small;">{{data['position'] | splitLast: '-': 10}}</div>
+        </div>
+      </div>
+      <div *ngIf="data['anonymous'] === 1" class="d-flex py-2">
+        <ion-thumbnail>
+          <img [src]="anonymousPic">
+        </ion-thumbnail>
+        <div class="pl-4 d-flex align-self-center flex-column">
+          <div>匿名者</div>
+        </div>
+      </div>
+
+      <div class="py-2" [innerHTML]="data['content'] | html" (click)="goToBlogDetail(data)"></div>
+
+      <div *ngIf="data['tweetPhotos']">
+        <div *ngIf="data['tweetPhotos'].length === 1" ngxViewer>
+          <img [src]="showPhotoPrefix + data['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+        </div>
+
+        <div *ngIf="data['tweetPhotos'].length === 2" class="row" ngxViewer>
+          <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+          <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+        </div>
+
+        <div *ngIf="data['tweetPhotos'].length === 3" class="row" ngxViewer>
+          <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+          <div class="col-6" style="padding: 2px;">
+            <div style="padding-bottom: 2px;"><img [src]="showPhotoPrefix + data['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+            <div style="padding-top: 2px;"><img [src]="showPhotoPrefix + data['tweetPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+          </div>
+        </div>
+
+        <div *ngIf="data['tweetPhotos'].length > 3" class="row">
+          <div class="row" ngxViewer>
+            <div class="col-6" style="padding: 2px;">
+              <img [src]="showPhotoPrefix + data['tweetPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+            </div>
+            <div class="col-6" style="padding: 2px;">
+              <img [src]="showPhotoPrefix + data['tweetPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;">
+            </div>
+            <div class="col-6" style="padding: 2px;">
+              <img [src]="showPhotoPrefix + data['tweetPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;">
+            </div>
+            <div class="col-6" style="padding: 2px;">
+              <img [src]="showPhotoPrefix + data['tweetPhotos'][3]" class="img-fluid" style="width: 100%; height: 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <ion-button fill="clear" color="secondary" (click)="goToBlogDetail(data)">
+          <ion-icon name="eye-outline"></ion-icon>
+          <span>{{data['viewCount'] ? data['viewCount'] : '浏览'}}</span>
+        </ion-button>
+        <ion-button fill="clear" color="secondary" (click)="goToBlogDetail(data)">
+          <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+          <span>{{data['commentCount'] ? data['commentCount'] : '评论'}}</span>
+        </ion-button>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+

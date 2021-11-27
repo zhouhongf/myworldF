@@ -1,0 +1,23 @@
+.pane {
+  background: url(./../../../../assets/images/dengShanRen.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.myslide {
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 600px;
+}
+
+.mylink:hover {
+  cursor: pointer;
+  color: white;
+}
+

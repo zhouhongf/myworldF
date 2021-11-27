@@ -1,0 +1,53 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button class="fa fa-chevron-left" routerLink="/chat/contact"></button>
+    <h5>添加伙伴</h5>
+    <button mat-button class="ml-auto" (click)="checkPhoneContacts()">上传通讯录</button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div class="position-sticky fixed-top" style="background-color: lightgray;">
+    <ion-searchbar placeholder="姓名/昵称/手机号" autocomplete="on" (ionInput)="getItems($event)" (ionCancel)="onCancelSearch($event)"></ion-searchbar>
+  </div>
+
+  <!--未搜索的结果 -->
+  <div *ngIf="!isSearching">
+    <ion-item-group *ngFor="let group of formatContacts">
+      <ion-item-divider color="medium" id="{{group.key}}">{{group.key}}</ion-item-divider>
+      <ion-item *ngFor="let item of group.value | orderBy:['pinyinName']">
+        <ion-thumbnail slot="start">
+          <img class="rounded" [src]="item.avatar">
+        </ion-thumbnail>
+        <ion-label>
+          <h5>{{item.displayName}}</h5>
+          <p>竞融:{{item.nickname}}</p>
+        </ion-label>
+        <ion-button slot="end" color="primary" (click)="searchContactLocal(item)">添加</ion-button>
+      </ion-item>
+    </ion-item-group>
+  </div>
+
+  <!--搜索的结果 -->
+  <ion-list *ngIf="isSearching">
+    <ion-item *ngFor="let item of searchingItems">
+      <ion-thumbnail slot="start">
+        <img class="rounded" [src]="item.avatar">
+      </ion-thumbnail>
+      <ion-label>
+        <h5>{{item.displayName}}</h5>
+        <p>竞融:{{item.nickname}}</p>
+      </ion-label>
+      <ion-button slot="end" color="primary" (click)="searchContactLocal(item)">添加</ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="searchingItems.length === 0">
+      <ion-thumbnail slot="start" class="rounded" style="background-color: goldenrod">
+        <ion-icon name="person-add" size="large" style="margin: 10px;" color="light"></ion-icon>
+      </ion-thumbnail>
+      <ion-label><h5>{{searchValue}}</h5></ion-label>
+      <ion-button slot="end" color="primary" (click)="searchContactRemote(searchValue)">添加</ion-button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

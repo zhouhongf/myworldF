@@ -1,0 +1,47 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button class="ml-auto fa fa-chevron-circle-left" (click)="goBack()"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container" style="min-height: 900px; padding: 30px 8px;">
+    <div class="d-flex justify-content-between" *ngIf="bankLogoUrl">
+      <ion-thumbnail>
+        <img [src]="bankLogoUrl">
+      </ion-thumbnail>
+      <h4 class="text-secondary">{{dataShow?.bankName}}</h4>
+    </div>
+
+    <hr>
+    <h3 class="py-4 text-center">{{dataShow?.name}}</h3>
+    <hr style="border-style: dashed;">
+    <div class="text-center text-secondary">{{dataShow?.date}}</div>
+
+    <div class="py-5" [innerHTML]="dataShow?.content"></div>
+    <div *ngIf="dataShow?.photos">
+      <img [src]="dataShow?.url">
+    </div>
+
+    <hr>
+    <div class="d-flex justify-content-between">
+      <button mat-button (click)="goToExternal(dataShow?.url)">
+        <span class="fa fa-link text-danger"></span>
+        <span class="px-2 text-info">原文链接</span>
+      </button>
+      <button mat-button (click)="setFavor()" *ngIf="isLogin">
+        <span [ngClass]="isFavor ? 'fa fa-heart text-danger' : 'fa fa-heart-o text-danger'"></span>
+        <span class="px-2">收藏</span>
+      </button>
+      <!--<button mat-button *ngIf="!isSpeaking" (click)="startRead(dataShow?.content)">
+        <span class="px-2 text-secondary">朗读</span>
+        <span class="fa fa-volume-up text-danger" style="font-size: large;"></span>
+      </button>
+      <button mat-button *ngIf="isSpeaking" (click)="stopRead()">
+        <span class="px-2 text-secondary">停止</span>
+        <span class="fa fa-volume-off text-danger" style="font-size: large;"></span>
+      </button>-->
+    </div>
+  </div>
+</ion-content>

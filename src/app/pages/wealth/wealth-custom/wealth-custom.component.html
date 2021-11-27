@@ -1,0 +1,47 @@
+<mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+  <mat-toolbar-row [hidden]="showSearch" class="px-0">
+    <button mat-button class="fa fa-chevron-left" routerLink="/wealth"></button>
+    <span>自定义名单</span>
+    <button mat-button (click)="search()" class="fa fa-plus-circle ml-auto"></button>
+    <button mat-button (click)="showDelButton = !showDelButton" [ngClass]="showDelButton ? 'fa fa-minus' : 'fa fa-minus-circle'"></button>
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="showSearch" class="px-0">
+    <button mat-button class="fa fa-bars" (click)="sidenavLeft.toggle()"></button>
+    <mat-form-field style="width: 100%;" [floatLabel]="'never'">
+      <input type="text" placeholder="选择银行" matInput [formControl]="myControl">
+      <button *ngIf="myControl.value" mat-button matSuffix class="fa fa-times" (click)="searchReset()"></button>
+    </mat-form-field>
+    <button mat-button class="fa fa-reply" (click)="searchCancel()"></button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container style="flex: 1;">
+  <mat-sidenav #sidenavLeft mode="push">
+    <mat-list class="px-2">
+      <div class="text-center font-weight-bold">已选名单</div>
+      <hr>
+      <mat-list-item *ngFor="let data of myListBankNames" class="text-truncate">{{data}}</mat-list-item>
+      <br><br>
+      <button mat-raised-button color="primary" style="width: 100%;" (click)="openDialog()" [disabled]="myListBankNames.size <= 0">确认</button>
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-selection-list *ngIf="showSearch">
+      <mat-list-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="selectThis(option)">{{option}}</mat-list-option>
+    </mat-selection-list>
+
+    <ion-list [hidden]="showSearch" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <ion-item cdkDrag *ngFor="let title of listData; let i = index" class="example-box">
+        <ion-label>{{title}}</ion-label>
+        <button mat-button [hidden]="showDelButton" class="fa fa-chevron-right" (click)="goToCustomChoose(title)"></button>
+        <button mat-button *ngIf="showDelButton" class="fa fa-minus-circle text-danger" (click)="deleteMyList(title, i)"></button>
+      </ion-item>
+    </ion-list>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+

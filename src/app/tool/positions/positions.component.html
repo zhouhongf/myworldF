@@ -1,0 +1,21 @@
+<form [formGroup]="theForm">
+  <div class="row">
+    <mat-form-field class="col-md-4">
+      <mat-select placeholder="职业分类一" formControlName="parent">
+        <mat-option *ngFor="let theData of parentsData" [value]="theData['itemName']" (click)="selectParent(theData['itemCode'])">{{theData['itemName']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-4">
+      <mat-select placeholder="职业分类二" formControlName="person">
+        <mat-option *ngFor="let theData of peopleSelectedData" [value]="theData['itemName']" (click)="selectPerson(theData['itemCode'])">{{theData['itemName']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-4">
+      <mat-select placeholder="职业分类三" formControlName="child">
+        <mat-option *ngFor="let theData of childrenSelectedData" [value]="theData['itemName']" (click)="selectChild()">{{theData['itemName']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

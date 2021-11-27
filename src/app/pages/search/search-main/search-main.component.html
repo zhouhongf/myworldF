@@ -1,0 +1,26 @@
+<ion-header>
+  <mat-toolbar class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <div class="ml-auto pr-5 text-light">{{cityname}}</div>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="pane" [style.background-image]="imageUrl">
+    <div style="top: 30%; position: relative">
+      <h5 class="text-center">搜索{{target}}</h5>
+    </div>
+
+    <div #mainSearch class="input-group px-2" style="margin-left: auto; margin-right: auto; z-index: 100; position: relative; max-width: 600px; top: 35%;">
+      <input type="text" class="form-control" [formControl]="searchContent" (keydown.enter)="search()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" (click)="search()">
+          <span class="fa fa-search"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-toolbar class="d-flex justify-content-center bg-dark text-secondary small">
+    <div>Copyright ©2020 竞融&nbsp;&nbsp;&nbsp;苏ICP备17006139号</div>
+  </mat-toolbar>
+</ion-content>

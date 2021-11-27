@@ -1,0 +1,18 @@
+<ion-header>
+    <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+        <button mat-button class="fa fa-chevron-left" routerLink="/chat/home"></button>
+        <button mat-button class="ml-auto" (click)="isEdit = !isEdit">{{isEdit  ? '取消' : '编辑'}}</button>
+        <button mat-button *ngIf="!isEdit" (click)="goToTagGroup()">新增</button>
+    </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+    <ion-item *ngFor="let item of chatGroups" (click)="goToMessageDetail(item)" button>
+        <ion-thumbnail slot="start">
+            <img class="rounded" [src]="groupAvatarPrefix + item.id | photo">
+        </ion-thumbnail>
+        <ion-label>{{item.displayName}}</ion-label>
+        <ion-badge *ngIf="item.unreadMessageNum > 0 && isEdit === false" color="primary">{{item.unreadMessageNum}}</ion-badge>
+        <ion-badge *ngIf="isEdit === true">修改</ion-badge>
+    </ion-item>
+</ion-content>

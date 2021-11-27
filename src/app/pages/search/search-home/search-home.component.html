@@ -1,0 +1,103 @@
+<ion-header>
+  <mat-toolbar #mainHeader class="position-absolute" style="background: rgba(255,255,255,0); height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <div class="ml-auto pr-3 text-secondary">{{cityname}}&nbsp;&nbsp;{{cityweather}}&nbsp;&nbsp;{{citytemp}}</div>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium" [scrollEvents]="true" (ionScroll)="scrollEvent($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides scrollbar [options]="slideOpts" *ngIf="slides.length">
+    <ion-slide *ngFor="let one of slides; let i = index;" [ngStyle]="{'background-image': slides[i].image}" class="myslide d-flex flex-column">
+      <h4>{{slides[i].title}}</h4>
+      <div>{{slides[i].description}}</div>
+    </ion-slide>
+  </ion-slides>
+
+  <div class="mt-2">
+    <ion-item>
+      <ion-label>新闻资讯</ion-label>
+      <ion-button slot="end" fill="clear" [routerLink]="['/text/home', {target: '新闻'}]">更多>></ion-button>
+    </ion-item>
+    <ion-item *ngFor="let one of dataTextsNews" button lines="none" (click)="goToDetailText(one)">
+      <ion-avatar slot="start" size="small">
+        <img [src]="one['bankName'] | bankLogo">
+      </ion-avatar>
+      <ion-label>
+        <div>{{one['name']}}</div>
+        <p>{{one['date'] | date: 'yyyy-MM-dd'}}</p>
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <div class="my-2" style="background-color: white;">
+    <ion-item>
+      <ion-label>理财推荐</ion-label>
+      <ion-button slot="end" fill="clear" routerLink="/wealth/home">更多>></ion-button>
+    </ion-item>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let wealth of dataWealth" (click)="goToDetailWealth(wealth)">
+        <div matLine>{{wealth.name}}</div>
+        <div matLine class="d-flex justify-content-between">
+          <div class="text-info">{{wealth.bankName}}</div>
+          <div class="text-danger">{{wealth.rate}}</div>
+        </div>
+        <div matLine class="text-muted">
+          起购{{wealth.amountBuyMin}}万元&nbsp;&nbsp;|&nbsp;&nbsp;期限{{wealth.term}}天&nbsp;&nbsp;|&nbsp;&nbsp;风险{{wealth.risk}}级
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+
+  <div class="mt-2">
+    <ion-item>
+      <ion-label>普惠金融</ion-label>
+      <ion-button slot="end" fill="clear" [routerLink]="['/bank/text', {keyone: '公司金融', keytwo: '小微金融'}]">更多>></ion-button>
+    </ion-item>
+    <ion-item *ngFor="let one of dataTextsFinance" button lines="none" (click)="goToDetailText(one)">
+      <ion-avatar slot="start" size="small">
+        <img [src]="one['bankName'] | bankLogo">
+      </ion-avatar>
+      <ion-label>{{one['name']}}</ion-label>
+    </ion-item>
+  </div>
+
+  <div class="mt-2">
+    <ion-item>
+      <ion-label>银行采购</ion-label>
+      <ion-button slot="end" fill="clear" [routerLink]="['/text/category', {keyone: '公告', keytwo: '采购'}]">更多>></ion-button>
+    </ion-item>
+    <ion-item *ngFor="let one of dataTextsBuy" button lines="none" (click)="goToDetailText(one)">
+      <ion-avatar slot="start" size="small">
+        <img [src]="one['bankName'] | bankLogo">
+      </ion-avatar>
+      <ion-label>
+        <div>{{one['name']}}</div>
+        <p>{{one['date'] | date: 'yyyy-MM-dd'}}</p>
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <div class="mt-2">
+    <ion-item>
+      <ion-label>银行招聘</ion-label>
+      <ion-button slot="end" fill="clear" [routerLink]="['/text/category', {keyone: '公告', keytwo: '招聘'}]">更多>></ion-button>
+    </ion-item>
+    <ion-item *ngFor="let one of dataTextsHR" button lines="none" (click)="goToDetailText(one)">
+      <ion-avatar slot="start" size="small">
+        <img [src]="one['bankName'] | bankLogo">
+      </ion-avatar>
+      <ion-label>
+        <div>{{one['name']}}</div>
+        <p>{{one['date'] | date: 'yyyy-MM-dd'}}</p>
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <mat-toolbar class="d-flex justify-content-center bg-dark text-secondary small">
+    <div>Copyright ©2020 竞融&nbsp;&nbsp;&nbsp;苏ICP备17006139号</div>
+  </mat-toolbar>
+</ion-content>

@@ -1,0 +1,62 @@
+<quill-editor [(ngModel)]='editorContent' [modules]="modules" (onEditorCreated)="addBindingCreated($event)" [styles]="{height: '600px'}" placeholder="请输入..." spellcheck="true">
+	<div quill-editor-toolbar>
+		<span class="ql-formats" style="padding: 10px 0 10px 0">
+			<button class="ql-bold" [style.width]="buttonWidth"></button>
+			<button class="ql-italic" [style.width]="buttonWidth"></button>
+			<button class="ql-underline" [style.width]="buttonWidth"></button>
+			<button class="ql-strike" [style.width]="buttonWidth"></button>
+			<button class="ql-header" value="1" [style.width]="buttonWidth"></button>
+			<button class="ql-header" value="2" [style.width]="buttonWidth"></button>
+		</span>
+		<span class="ql-formats"  style="padding: 10px 0 10px 0">
+			<button class="ql-list" value="ordered" [style.width]="buttonWidth"></button>
+			<button class="ql-list" value="bullet" [style.width]="buttonWidth"></button>
+			<button class="ql-align" value="justify" [style.width]="buttonWidth"></button>
+			<button class="ql-align" value="center" [style.width]="buttonWidth"></button>
+			<button class="ql-align" value="right" [style.width]="buttonWidth"></button>
+			<button class="ql-direction" value="rtl" [style.width]="buttonWidth"></button>
+		</span>
+		<span class="ql-formats" style="padding: 10px 0 10px 0">
+			<button class="ql-indent" value="-1" [style.width]="buttonWidth"></button>
+			<button class="ql-indent" value="+1" [style.width]="buttonWidth"></button>
+			<button class="ql-script" value="sub" [style.width]="buttonWidth"></button>
+			<button class="ql-script" value="super" [style.width]="buttonWidth"></button>
+			<button [style.width]="buttonWidth">
+				<select class="ql-color"></select>
+			</button>
+			<button [style.width]="buttonWidth">
+				<select class="ql-background"></select>
+			</button>
+		</span>
+		<span class="ql-formats"  style="padding: 10px 0 10px 0">
+			<button class="ql-blockquote" [style.width]="buttonWidth"></button>
+			<button class="ql-code-block" [style.width]="buttonWidth"></button>
+			<button class="ql-link" [style.width]="buttonWidth"></button>
+			<button class="ql-image" [style.width]="buttonWidth"></button>
+			<button class="ql-formula" [style.width]="buttonWidth"></button>
+			<button class="ql-clean" [style.width]="buttonWidth"></button>
+		</span>
+		<span class="ql-formats"  style="padding: 10px 0 10px 0">
+			<select class="ql-font">
+				<option selected></option>
+				<option value="serif"></option>
+				<option value="monospace"></option>
+			</select>
+			<select class="ql-size">
+				<option value="small"></option>
+				<option selected></option>
+				<option value="large"></option>
+				<option value="huge"></option>
+			</select>
+			<select class="ql-header">
+				<option value=1></option>
+				<option value=2></option>
+				<option value=3></option>
+				<option value=4></option>
+				<option value=5></option>
+				<option value=6></option>
+				<option selected></option>
+			</select>
+		</span>
+	</div>
+</quill-editor>

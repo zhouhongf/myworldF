@@ -1,0 +1,48 @@
+<ion-header>
+  <mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+    <button mat-button type="button" class="fa fa-chevron-left" (click)="goBack()"></button>
+    <h5>修改账号</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content color="medium">
+  <div *ngIf="accountStatus === '已认证'">
+    <form [formGroup]="changephoneForm">
+      <ion-list>
+        <ion-item>
+          <ion-label>身份证号码</ion-label>
+          <ion-input type="text" formControlName="idnumber"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>原手机号码</ion-label>
+          <ion-input type="text" formControlName="usernameold"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>新手机号码</ion-label>
+          <ion-input type="text" formControlName="username"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>短信验证码</ion-label>
+          <ion-input type="text" formControlName="smsCode"></ion-input>
+          <ion-button slot="end" fill="clear" [disabled]="disabled || !username.valid" (click)="tryGetCode($event)">{{tips}}</ion-button>
+        </ion-item>
+      </ion-list>
+
+      <div padding>
+        <ion-button expand="block" [disabled]="!changephoneForm.valid" (click)="changeUsername()">提交</ion-button>
+      </div>
+
+    </form>
+  </div>
+
+  <div padding>
+    <h5 *ngIf="accountStatus !== '已认证'" text-center>当前账户状态不能变更用户账号</h5>
+  </div>
+
+
+</ion-content>
+
+

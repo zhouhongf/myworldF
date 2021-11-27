@@ -1,0 +1,78 @@
+<ion-app>
+  <ion-split-pane contentId="mains-content" [when]="mediaQueryList.matches" class="my-custom">
+    <ion-menu contentId="mains-content" menuId="mains" side="start" swipeGesture="true">
+      <ion-header class="ion-no-border">
+        <mat-toolbar style="background: rgba(255,255,255,0); height: 80px; padding-top: 28px;">
+          <div>{{isSysadmin ? '管理员': nickname}}</div>
+          <button mat-button class="ml-auto" (click)="logout()"><span class="fa fa-power-off"></span></button>
+        </mat-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list *ngIf="!isSysadmin">
+          <ion-menu-toggle autoHide="false" menu="mains">
+            <div class="d-flex justify-content-center">
+              <ion-thumbnail style="cursor: pointer;" (click)="goToPage({url: '/sysuser'})">
+                <img [src]="userAvatar ? userAvatar : userAvatarDefault" alt="头像">
+              </ion-thumbnail>
+            </div>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-item button class="text-center" (click)="goToPage({url: '/'})">
+          <ion-label color="dark">首页</ion-label>
+        </ion-item>
+        <mat-accordion *ngIf="isSysadmin">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-description>菜单</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ion-item button lines="none" class="text-center" *ngFor="let p of theSysadminPages" (click)="goToPage(p)">
+              <ion-label color="dark">{{p.title}}</ion-label>
+            </ion-item>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion *ngIf="!isSysadmin">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-description>搜索</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ion-item button lines="none" class="text-center" *ngFor="let p of theSearchPages" (click)="goToPage(p)">
+              <ion-label color="dark">{{p.title}}</ion-label>
+            </ion-item>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-description>社交</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ion-item button lines="none" class="text-center" *ngFor="let p of theSocialPages" (click)="goToPage(p)">
+              <ion-label color="dark">{{p.title}}</ion-label>
+            </ion-item>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-description>金融</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ion-item button lines="none" class="text-center" *ngFor="let p of theWealthPages" (click)="goToPage(p)">
+              <ion-label color="dark">{{p.title}}</ion-label>
+            </ion-item>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-description>资讯</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ion-item button lines="none" class="text-center" *ngFor="let p of theNewsPages" (click)="goToPage(p)">
+              <ion-label color="dark">{{p.title}}</ion-label>
+            </ion-item>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="mains-content"></ion-router-outlet>
+
+  </ion-split-pane>
+</ion-app>

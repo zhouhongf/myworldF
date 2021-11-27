@@ -1,0 +1,128 @@
+<ion-header>
+	<mat-toolbar color="primary" style="height: 80px; padding: 28px 0 0 0;">
+		<button mat-button class="fa fa-chevron-left" routerLink="/show/blog"></button>
+		<h5></h5>
+		<button mat-button class="ml-auto fa fa-plus" (click)="createShowPhoto()"></button>
+		<button mat-button class="fa fa-minus" (click)="hideBadge = !hideBadge"></button>
+	</mat-toolbar>
+</ion-header>
+
+
+<ion-content>
+	<div class="row p-2">
+		<div class="col-4 p-1" *ngFor="let data of base64List; let i=index;">
+			<div matBadge="一" matBadgePosition="above after" matBadgeColor="warn" matBadgeSize="small" [matBadgeHidden]="hideBadge" (click)="delShowPhoto(i)">
+				<img [src]="data | photo" class="img-fluid" style="width: 100%; height: 100%;" ngxViewer>
+			</div>
+		</div>
+	</div>
+
+	<quill-editor [(ngModel)]='editorContent' theme="bubble" [styles]="{'height': 'auto', 'min-height': '300px'}" placeholder="此刻我的想法......">
+		<div quill-editor-toolbar>
+			<span class="ql-formats p-1">
+				<select class="ql-color">
+					<option selected="selected"></option>
+                    <option value="#e60000"></option>
+					<option value="#ff9900"></option>
+                    <option value="#ffff00"></option>
+                    <option value="#008a00"></option>
+                    <option value="#0066cc"></option>
+                    <option value="#9933ff"></option>
+                    <option value="#ffffff"></option>
+                    <option value="#facccc"></option>
+                    <option value="#ffebcc"></option>
+                    <option value="#ffffcc"></option>
+                    <option value="#cce8cc"></option>
+                    <option value="#cce0f5"></option>
+                    <option value="#ebd6ff"></option>
+                    <option value="#bbbbbb"></option>
+                    <option value="#f06666"></option>
+                    <option value="#ffc266"></option>
+                    <option value="#ffff66"></option>
+                    <option value="#66b966"></option>
+                    <option value="#66a3e0"></option>
+                    <option value="#c285ff"></option>
+                    <option value="#888888"></option>
+                    <option value="#a10000"></option>
+                    <option value="#b26b00"></option>
+                    <option value="#b2b200"></option>
+                    <option value="#006100"></option>
+                    <option value="#0047b2"></option>
+                    <option value="#6b24b2"></option>
+                    <option value="#444444"></option>
+                    <option value="#5c0000"></option>
+                    <option value="#663d00"></option>
+                    <option value="#666600"></option>
+                    <option value="#003700"></option>
+                    <option value="#002966"></option>
+                    <option value="#3d1466"></option>
+				</select>
+			</span>
+			<span class="ql-formats p-1">
+				<select class="ql-background">
+					<option value="#000000"></option>
+                    <option value="#e60000"></option>
+                    <option value="#ff9900"></option>
+                    <option value="#ffff00"></option>
+                    <option value="#008a00"></option>
+                    <option value="#0066cc"></option>
+                    <option value="#9933ff"></option>
+                    <option selected="selected"></option>
+                    <option value="#facccc"></option>
+                    <option value="#ffebcc"></option>
+                    <option value="#ffffcc"></option>
+                    <option value="#cce8cc"></option>
+                    <option value="#cce0f5"></option>
+                    <option value="#ebd6ff"></option>
+                    <option value="#bbbbbb"></option>
+                    <option value="#f06666"></option>
+                    <option value="#ffc266"></option>
+                    <option value="#ffff66"></option>
+                    <option value="#66b966"></option>
+                    <option value="#66a3e0"></option>
+                    <option value="#c285ff"></option>
+                    <option value="#888888"></option>
+                    <option value="#a10000"></option>
+                    <option value="#b26b00"></option>
+                    <option value="#b2b200"></option>
+                    <option value="#006100"></option>
+                    <option value="#0047b2"></option>
+                    <option value="#6b24b2"></option>
+                    <option value="#444444"></option>
+                    <option value="#5c0000"></option>
+                    <option value="#663d00"></option>
+                    <option value="#666600"></option>
+                    <option value="#003700"></option>
+                    <option value="#002966"></option>
+                    <option value="#3d1466"></option>
+				</select>
+			</span>
+			<span class="ql-formats p-1"><button type="button" class="ql-bold"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-italic"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-underline"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-strike"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-header" value="1"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-header" value="2"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-list" value="ordered"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-list" value="bullet"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-script" value="sub"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-script" value="super"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-indent" value="-1"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-indent" value="+1"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-direction" value="rtl"></button></span>
+			<span class="ql-formats p-1"><button type="button" class="ql-clean"></button></span>
+		</div>
+	</quill-editor>
+	<ion-item>
+		<ion-label>谁可以看</ion-label>
+		<ion-select [(ngModel)]="tagSelect" value="ALL" okText="确定" cancelText="取消">
+			<ion-select-option value="ALL">全部</ion-select-option>
+			<ion-select-option *ngFor="let tag of tagList" [value]="tag.name">{{tag.name}}</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<br>
+	<ion-button class="ion-padding" fill="outline" expand="block" [disabled]="!editorContent" (click)="releaseBlog()">发布</ion-button>
+	<br>
+</ion-content>
+
+

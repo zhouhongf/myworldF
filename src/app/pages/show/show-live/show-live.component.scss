@@ -1,0 +1,14 @@
+ion-thumbnail {
+  --size: 40px;
+  --border-radius: 5px;
+}
+
+.comment-box {
+  cursor: pointer;
+  background-color: whitesmoke;
+  padding: 5px;
+}
+
+.comment-box:hover {
+  background-color: lightgray;
+}

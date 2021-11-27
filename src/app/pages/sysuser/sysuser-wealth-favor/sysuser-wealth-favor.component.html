@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">
+  <mat-toolbar style="background: #333333; height: 80px; padding: 28px 0 0 0; color: white;">
+    <button mat-button type="button" class="fa fa-chevron-left" routerLink="/sysuser/home"></button>
+    <h5>理财关注</h5>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉加载" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+  </ion-refresher>
+
+  <mat-nav-list>
+    <mat-list-item *ngFor="let wealth of dataWealth" (click)="goToDetailWealth(wealth)">
+      <div matLine>{{wealth.name}}</div>
+      <div matLine class="d-flex justify-content-between">
+        <div class="text-info">{{wealth.bankName}}</div>
+        <div class="text-danger">{{wealth.rate}}</div>
+      </div>
+      <div matLine class="text-muted">
+        起购{{wealth.amountBuyMin}}万元&nbsp;&nbsp;|&nbsp;&nbsp;期限{{wealth.term}}天&nbsp;&nbsp;|&nbsp;&nbsp;风险{{wealth.risk}}级
+      </div>
+    </mat-list-item>
+  </mat-nav-list>
+</ion-content>
+
+

@@ -1,0 +1,54 @@
+<ion-header class="ion-no-border">
+	<mat-toolbar #header class="position-absolute sticky-top" style="background-color: transparent; color: gray; height: 80px; padding: 28px 0 0 0; opacity: 0;">
+		<button mat-button class="fa fa-chevron-left" routerLink="/"></button>
+		<button mat-button class="ml-auto fa fa-camera" (click)="goToBlogMake()"></button>
+	</mat-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen [scrollEvents]="true" (ionScroll)="scrollEvent($event)">
+	<div [ngStyle]="{'background-image': 'url(' + theImgUrl + ')', 'background-size': 'cover', 'height': '240px', 'padding': '160px 10px 10px 10px'}">
+		<div class="d-flex justify-content-between align-items-end">
+			<h5>{{nickname}}</h5>
+			<div routerLink="/show/blog">
+				<img [src]="theAvatarUrl | photo" style="cursor: pointer; width: 60px; height: 60px; border-radius: 10px;">
+			</div>
+		</div>
+	</div>
+	<br>
+	<div *ngFor="let data of blogShowList" class="p-1">
+		<div class="row">
+			<div class="col-2">
+				<ion-thumbnail>
+					<img [src]="data.avatar">
+				</ion-thumbnail>
+			</div>
+			<div class="col-10">
+				<div class="text-secondary">{{data.displayName}}</div>
+				<div [innerHTML]="data.content | html" style="font-size: 14px;"></div>
+				<div class="row m-1">
+					<div class="col-4 p-1" *ngFor="let pic of data.showPhotos">
+						<img [src]="pic" class="img-fluid" style="width: 100%; height: 100%;" ngxViewer>
+					</div>
+				</div>
+				<div class="text-right">
+					<button mat-button class="fa fa-comments-o text-secondary" (click)="makeComment(data.idDetail, data.idDetail, data.userWid, data.displayName)"></button>
+				</div>
+				<div *ngIf="data.showBlogComments">
+					<div *ngFor="let comment of data.showBlogComments" class="comment-box">
+						<div style="font-size: 14px;" (click)="makeComment(data.idDetail, comment.id, comment.commenterWid, comment.commenterDisplayName)">
+							<span class="text-primary">{{comment.commenterDisplayName}}：</span>
+							<span *ngIf="comment.idAt !== data.idDetail" class="text-primary">回复{{comment.commentAtDisplayName}}</span>
+							<span>{{comment.comment}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+
+	<ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>

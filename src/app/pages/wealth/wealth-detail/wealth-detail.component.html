@@ -1,0 +1,85 @@
+<ion-header>
+  <mat-toolbar class="mat-elevation-z2" style="height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button *ngIf="!textHtml" mat-button class="ml-auto fa fa-chevron-circle-left" (click)="goBack()"></button>
+    <button *ngIf="textHtml" mat-button class="ml-auto fa fa-chevron-circle-left" (click)="textHtml = undefined"></button>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="!textHtml" class="container" style="min-height: 900px; padding: 30px 8px;">
+    <div class="d-flex justify-content-between">
+      <ion-thumbnail>
+        <img [src]="bankLogoUrl">
+      </ion-thumbnail>
+      <h4 class="text-secondary">{{dataShow?.bankName}}</h4>
+    </div>
+
+    <hr>
+    <br>
+    <h3 class="text-center">{{dataShow?.name}}</h3>
+    <br>
+    <hr style="border-style: dashed;">
+
+    <div class="d-flex justify-content-center text-info">
+      <h5 class="px-2">{{dataShow?.redeemType}}</h5>
+      <h5 class="px-2">{{dataShow?.rateType}}</h5>
+      <h5 class="px-2">{{dataShow?.promiseType}}</h5>
+      <h5 class="px-2">{{dataShow?.fixedType}}</h5>
+    </div>
+
+    <div class="row py-4">
+      <mat-list class="col-sm-6">
+        <mat-list-item>产品代码：{{dataShow?.code}}</mat-list-item>
+        <mat-list-item>{{dataShow?.codeRegister ? '登记编码：' + dataShow?.codeRegister : ''}}</mat-list-item>
+      </mat-list>
+      <mat-list class="col-sm-6">
+        <mat-list-item>
+          <span class="mr-auto">预期收益：</span>
+          <h3 class="text-info">{{rateIncome}}</h3>
+        </mat-list-item>
+        <mat-list-item *ngIf="dataShow?.risk">
+          <span class="mr-auto">风险等级：</span>
+          <span class="fa fa-star text-danger px-1" style="font-size: x-large" *ngFor="let red of redStarList"></span>
+          <span class="fa fa-star-o text-danger px-1" style="font-size: x-large" *ngFor="let red of nonStarList"></span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <hr style="border-style: dashed;">
+    <div class="row py-4">
+      <mat-list class="col-sm-6">
+        <mat-list-item>
+          <span class="mr-auto">投资币种：</span>
+          <span>{{dataShow?.currency}}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span class="mr-auto">起购金额：</span>
+          <span>{{amountStart}}</span>
+        </mat-list-item>
+      </mat-list>
+      <mat-list class="col-sm-6 d-flex">
+        <mat-list-item class="align-self-center">
+          <span class="mr-auto">产品期限：</span>
+          <h4 class="text-info">{{dataShow?.term ? dataShow?.term + '天' : '暂无'}}</h4>
+          <span *ngIf="dataShow?.termLooped === 'YES'">(循环周期)</span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between">
+      <button mat-button (click)="doDownload(dataShow?.id, dataShow?.fileType)">
+        <span class="fa fa-file-text-o text-danger"></span>
+        <span class="px-2">产品说明书</span>
+      </button>
+      <button mat-button (click)="setFavor()" *ngIf="isLogin">
+        <span [ngClass]="isFavor ? 'fa fa-heart text-danger' : 'fa fa-heart-o text-danger'"></span>
+        <span class="px-2">收藏</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="textHtml" class="container">
+    <div [innerHTML]="textHtml"></div>
+  </div>
+</ion-content>

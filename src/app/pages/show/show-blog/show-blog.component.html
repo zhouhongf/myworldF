@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <mat-toolbar class="position-absolute" style="background-color: transparent; color: gray; height: 80px; padding: 28px 0 0 0;">
+    <ion-menu-button menu="mains" color="dark"></ion-menu-button>
+    <button mat-button class="ml-auto fa fa-camera" (click)="goToBlogMake()"></button>
+  </mat-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+  <div [ngStyle]="{'background-image': 'url(' + theImgUrl + ')', 'background-size': 'cover', 'height': '240px', 'padding': '160px 10px 10px 10px'}" (click)="changeBlogPhoto()">
+    <div class="d-flex justify-content-between align-items-end">
+      <div>{{nickname}}</div>
+      <ion-thumbnail>
+        <img [src]="theAvatarUrl">
+      </ion-thumbnail>
+    </div>
+  </div>
+
+  <br>
+  <div *ngFor="let data of blogShowList" class="p-1">
+    <div class="row">
+      <div class="col-3 pr-0">
+        <div><span style="font-size: 10px;">{{data['createTime'] | date:'M'}}月</span><span>{{data['createTime'] | date:'dd'}}</span></div>
+        <div *ngIf="data['createTime'] < yearBegin"><span style="font-size: 10px; color: gray">{{data['createTime'] | date:'yyyy'}}</span></div>
+      </div>
+      <div class="col-9 pl-0">
+        <div class="row">
+          <div class="col-4" *ngIf="data['showPhotos']">
+            <div *ngIf="data['showPhotos'].length === 1" ngxViewer>
+              <img [src]="showPhotoPrefix + data['showPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+            </div>
+
+            <div *ngIf="data['showPhotos'].length === 2" class="row" ngxViewer>
+              <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['showPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+              <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['showPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+            </div>
+
+            <div *ngIf="data['showPhotos'].length === 3" class="row" ngxViewer>
+              <div class="col-6" style="padding: 2px;"><img [src]="showPhotoPrefix + data['showPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+              <div class="col-6" style="padding: 2px;">
+                <div style="padding-bottom: 2px;"><img [src]="showPhotoPrefix + data['showPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+                <div style="padding-top: 2px;"><img [src]="showPhotoPrefix + data['showPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;"></div>
+              </div>
+            </div>
+
+            <div *ngIf="data['showPhotos'].length > 3" class="row">
+              <div class="row" ngxViewer>
+                <div class="col-6" style="padding: 2px;">
+                  <img [src]="showPhotoPrefix + data['showPhotos'][0]" class="img-fluid" style="width: 100%; height: 100%;">
+                </div>
+                <div class="col-6" style="padding: 2px;">
+                  <img [src]="showPhotoPrefix + data['showPhotos'][1]" class="img-fluid" style="width: 100%; height: 100%;">
+                </div>
+                <div class="col-6" style="padding: 2px;">
+                  <img [src]="showPhotoPrefix + data['showPhotos'][2]" class="img-fluid" style="width: 100%; height: 100%;">
+                </div>
+                <div class="col-6" style="padding: 2px;">
+                  <img [src]="showPhotoPrefix + data['showPhotos'][3]" class="img-fluid" style="width: 100%; height: 100%;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="cursor: pointer" (click)="goToBlogDetail(data)">
+            <div [innerHTML]="data['content'] | html" style="font-size: 12px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+
